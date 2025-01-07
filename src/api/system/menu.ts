@@ -21,7 +21,7 @@ const MenuAPI = {
    * 获取菜单树形列表
    *
    * @param queryParams 查询参数
-   * @returns 菜单树形列表
+   * @returns 菜单树形列表`
    */
   getList(queryParams: MenuQuery) {
     return request<any, MenuVO[]>({
