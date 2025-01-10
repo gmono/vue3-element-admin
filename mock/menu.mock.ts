@@ -8,6 +8,18 @@ export default defineMock([
       code: "00000",
       data: [
         {
+          path: "/gift",
+          component: "system/gift/index",
+          name: "Gift",
+          meta: {
+            title: "礼物管理",
+            icon: "system",
+            hidden: false,
+            alwaysShow: false,
+            params: null
+          }
+        },
+        {
           path: "/system",
           component: "Layout",
           redirect: "/system/user",

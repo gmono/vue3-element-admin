@@ -1,0 +1,22 @@
+import DeptAPI from "@/api/system/dept";
+import type { ISearchConfig } from "@/components/CURD/types";
+
+const searchConfig: ISearchConfig = {
+  pageName: "sys:user",
+  formItems: [
+    {
+      type: "input",
+      label: "礼物名称",
+      prop: "keywords",
+      attrs: {
+        placeholder: "用户名/昵称/手机号",
+        clearable: true,
+        style: {
+          width: "200px",
+        },
+      },
+    },
+  ],
+};
+
+export default searchConfig;
