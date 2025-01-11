@@ -1,34 +1,23 @@
 <template>
   <div v-if="!item.meta || !item.meta.hidden">
     <!--【叶子节点】显示叶子节点或唯一子节点且父节点未配置始终显示 -->
-    <template
-      v-if="
-        // 未配置始终显示，使用唯一子节点替换父节点显示为叶子节点
-        (!item.meta?.alwaysShow &&
-          hasOneShowingChild(item.children, item) &&
-          (!onlyOneChild.children ||
-            onlyOneChild.children.filter((child: any) => !child.meta?.hidden).length === 0 ||
-            onlyOneChild.noShowingChildren)) ||
-        // 即使配置了始终显示，但无子节点，也显示为叶子节点
-        (item.meta?.alwaysShow &&
-          (!item.children || item.children.filter((child) => !child.meta?.hidden).length === 0))
-      "
-    >
-      <AppLink
-        v-if="onlyOneChild.meta"
-        :to="{
-          path: resolvePath(onlyOneChild.path),
-          query: onlyOneChild.meta.params,
-        }"
-      >
-        <el-menu-item
-          :index="resolvePath(onlyOneChild.path)"
-          :class="{ 'submenu-title-noDropdown': !isNest }"
-        >
-          <SidebarMenuItemTitle
-            :icon="onlyOneChild.meta.icon || item.meta?.icon"
-            :title="onlyOneChild.meta.title"
-          />
+    <template v-if="
+      // 未配置始终显示，使用唯一子节点替换父节点显示为叶子节点
+      (!item.meta?.alwaysShow &&
+        hasOneShowingChild(item.children, item) &&
+        (!onlyOneChild.children ||
+          onlyOneChild.children.filter((child: any) => !child.meta?.hidden).length === 0 ||
+          onlyOneChild.noShowingChildren)) ||
+      // 即使配置了始终显示，但无子节点，也显示为叶子节点
+      (item.meta?.alwaysShow &&
+        (!item.children || item.children.filter((child) => !child.meta?.hidden).length === 0))
+    ">
+      <AppLink v-if="onlyOneChild.meta" :to="{
+        path: resolvePath(onlyOneChild.path),
+        query: onlyOneChild.meta.params,
+      }">
+        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }">
+          <SidebarMenuItemTitle :icon="onlyOneChild.meta.icon || item.meta?.icon" :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </AppLink>
     </template>
@@ -39,13 +28,8 @@
         <SidebarMenuItemTitle v-if="item.meta" :icon="item.meta.icon" :title="item.meta.title" />
       </template>
 
-      <SidebarMenuItem
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-      />
+      <SidebarMenuItem v-for="child in item.children" :key="child.path" :is-nest="true" :item="child"
+        :base-path="resolvePath(child.path)" />
     </el-sub-menu>
   </div>
 </template>
@@ -88,7 +72,7 @@ const props = defineProps({
 });
 
 // 可见的唯一子节点
-const onlyOneChild = ref();
+const onlyOneChild = ref({} as any);
 
 /**
  * 检查是否仅有一个可见子节点
@@ -150,7 +134,7 @@ function resolvePath(routePath: string) {
       }
     }
 
-    & > span {
+    &>span {
       display: inline-block;
       width: 0;
       height: 0;
@@ -162,7 +146,7 @@ function resolvePath(routePath: string) {
   .el-sub-menu {
     overflow: hidden;
 
-    & > .el-sub-menu__title {
+    &>.el-sub-menu__title {
       padding: 0 !important;
 
       .sub-el-icon {
@@ -179,7 +163,7 @@ function resolvePath(routePath: string) {
     width: $sidebar-width-collapsed;
 
     .el-sub-menu {
-      & > .el-sub-menu__title > span {
+      &>.el-sub-menu__title>span {
         display: inline-block;
         width: 0;
         height: 0;
