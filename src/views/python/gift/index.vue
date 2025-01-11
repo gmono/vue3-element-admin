@@ -30,6 +30,16 @@
         <template #gender="scope">
           <Dict v-model="scope.formData[scope.prop]" code="gender" />
         </template>
+        <template #value>
+
+          <FileUpload v-model="svgafile" :limit="1" :max-size="10" />
+        </template>
+        <template #icon>
+          <ImageUpload v-model="imgfile" :limit="1" :max-size="10" />
+        </template>
+        <template #show-icon>
+          <ImageUpload v-model="imgfile" :limit="1" :max-size="10" />
+        </template>
       </page-modal>
 
       <!-- 编辑 -->
@@ -62,6 +72,8 @@ import contentConfig from "./config/content";
 import contentConfig2 from "./config/content2";
 import editModalConfig from "./config/edit";
 import searchConfig from "./config/search";
+import ImageUpload from "@/components/Upload/ImageUpload.vue";
+import { UploadUserFile } from "element-plus";
 
 const {
   searchRef,
@@ -78,6 +90,9 @@ const {
   handleFilterChange,
 } = usePage();
 
+//礼物动画文件
+const svgafile = ref([] as UploadUserFile[])
+const imgfile = ref("")
 // 新增
 async function handleAddClick() {
   addModalRef.value?.setModalVisible();
