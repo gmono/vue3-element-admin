@@ -35,10 +35,10 @@
           <FileUpload v-model="svgafile" :limit="1" :max-size="10" />
         </template>
         <template #icon>
-          <ImageUpload v-model="imgfile" :limit="1" :max-size="10" />
+          <ImageUpload v-model="iconfile" :limit="1" :max-size="10" />
         </template>
         <template #show-icon>
-          <ImageUpload v-model="imgfile" :limit="1" :max-size="10" />
+          <ImageUpload v-model="showiconFile" :limit="1" :max-size="10" />
         </template>
       </page-modal>
 
@@ -91,15 +91,13 @@ const {
 } = usePage();
 
 //礼物动画文件
-const svgafile = ref([] as UploadUserFile[])
-const imgfile = ref("")
+const svgafile = ref([
+] as UploadUserFile[])
+const iconfile = ref("")
+const showiconFile = ref("")
 // 新增
 async function handleAddClick() {
   addModalRef.value?.setModalVisible();
-  // 加载部门下拉数据源
-  addModalConfig.formItems[2]!.attrs!.data = await DeptAPI.getOptions();
-  // 加载角色下拉数据源
-  addModalConfig.formItems[4]!.options = await RoleAPI.getOptions();
 }
 // 编辑
 async function handleEditClick(row: IObject) {
@@ -113,48 +111,9 @@ async function handleEditClick(row: IObject) {
   const data = await UserAPI.getFormData(row.id);
   editModalRef.value?.setFormData(data);
 }
-// 其他工具栏
-function handleToolbarClick(name: string) {
-  console.log(name);
-  if (name === "custom1") {
-    ElMessage.success("点击了自定义1按钮");
-  }
-}
-// 其他操作列
-async function handleOperatClick(data: IOperatData) {
-  console.log(data);
-  // 重置密码
-  if (data.name === "reset_pwd") {
-    ElMessageBox.prompt("请输入用户「" + data.row.username + "」的新密码", "重置密码", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
-    }).then(({ value }) => {
-      if (!value || value.length < 6) {
-        ElMessage.warning("密码至少需要6位字符，请重新输入");
-        return false;
-      }
-      UserAPI.resetPassword(data.row.id, value).then(() => {
-        ElMessage.success("密码重置成功，新密码是：" + value);
-      });
-    });
-  } else if (data.name === "detail") {
-    // 禁用表单编辑
-    editModalRef.value?.handleDisabled(true);
-    // 打开抽屉
-    editModalRef.value?.setModalVisible();
-    // 修改抽屉标题
-    editModalConfig.drawer = { ...editModalConfig.drawer, title: "用户详情" };
-    // 加载部门下拉数据源
-    editModalConfig.formItems[2]!.attrs!.data = await DeptAPI.getOptions();
-    // 加载角色下拉数据源
-    editModalConfig.formItems[4]!.options = await RoleAPI.getOptions();
-    // 根据id获取数据进行填充
-    const formData = await UserAPI.getFormData(data.row.id);
-    // 设置表单数据
-    editModalRef.value?.setFormData(formData);
-  }
-}
+function handleOperatClick() {
 
+}
 // 切换示例
 const isA = ref(true);
 </script>

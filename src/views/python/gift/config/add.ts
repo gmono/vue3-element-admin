@@ -1,7 +1,8 @@
 import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
+import { IGiftItem } from "./types";
 
-const modalConfig: IModalConfig<UserForm> = {
+const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "sys:user",
   dialog: {
     title: "新增礼物",

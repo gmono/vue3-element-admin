@@ -1,28 +1,12 @@
 <!-- 文件上传组件 -->
 <template>
   <div>
-    <el-upload
-      v-model:file-list="fileList"
-      :class="props.showUploadBtn ? 'show-upload-btn' : 'hide-upload-btn'"
-      :style="props.style"
-      multiple
-      :headers="props.headers"
-      :data="props.data"
-      :name="props.name"
-      :before-upload="handleBeforeUpload"
-      :on-remove="handleRemove"
-      :on-progress="handleProgress"
-      :on-success="handleSuccessFile"
-      :on-error="handleError"
-      :action="props.action"
-      :accept="props.accept"
-      :limit="props.limit"
-    >
-      <el-button
-        v-if="props.showUploadBtn"
-        type="primary"
-        :disabled="fileList.length >= props.limit"
-      >
+    <el-upload v-model:file-list="fileList" :class="props.showUploadBtn ? 'show-upload-btn' : 'hide-upload-btn'"
+      :style="props.style" multiple :headers="props.headers" :data="props.data" :name="props.name"
+      :before-upload="handleBeforeUpload" :on-remove="handleRemove" :on-progress="handleProgress"
+      :on-success="handleSuccessFile" :on-error="handleError" :action="props.action" :accept="props.accept"
+      :limit="props.limit">
+      <el-button v-if="props.showUploadBtn" type="primary" :disabled="fileList.length >= props.limit">
         {{ props.uploadBtnText }}
       </el-button>
       <template v-if="props.showTip" #tip>
@@ -33,24 +17,23 @@
       <template #file="{ file }">
         <div class="el-upload-list__item-info">
           <a class="el-upload-list__item-name" @click="downloadFile(file)">
-            <el-icon><Document /></el-icon>
+            <el-icon>
+              <Document />
+            </el-icon>
             <span class="el-upload-list__item-file-name">{{ file.name }}</span>
             <span v-if="props.showDelBtn" class="el-icon--close" @click.stop="handleRemove(file)">
-              <el-icon><Close /></el-icon>
+              <el-icon>
+                <Close />
+              </el-icon>
             </span>
           </a>
         </div>
       </template>
     </el-upload>
-    <el-progress
-      v-if="showUploadPercent"
-      :style="{
-        display: showUploadPercent ? 'inline-flex' : 'none',
-        width: '100%',
-      }"
-      :percentage="uploadPercent"
-      :color="customColorMethod"
-    />
+    <el-progress v-if="showUploadPercent" :style="{
+      display: showUploadPercent ? 'inline-flex' : 'none',
+      width: '100%',
+    }" :percentage="uploadPercent" :color="customColorMethod" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -108,7 +91,7 @@ const props = defineProps({
    */
   maxSize: {
     type: Number,
-    default: 2 * 1024 * 1024,
+    default: 2,
   },
   /**
    * 上传文件类型
@@ -182,7 +165,7 @@ const fileList = ref([] as UploadUserFile[]);
 const valFileList = ref([] as UploadUserFile[]);
 const showUploadPercent = ref(false);
 const uploadPercent = ref(0);
-
+let maxSize_bytes = $computed(() => props.maxSize * 1024 * 1024)
 watch(
   () => props.modelValue,
   (newVal: UploadUserFile[]) => {
@@ -221,7 +204,7 @@ watch(
  * 限制用户上传文件的大小
  */
 function handleBeforeUpload(file: UploadRawFile) {
-  if (file.size > props.maxSize) {
+  if (file.size > maxSize_bytes) {
     ElMessage.warning("上传文件不能大于" + props.maxSize + "M");
     return false;
   }
