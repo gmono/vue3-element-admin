@@ -1,7 +1,7 @@
 import type { IContentConfig } from "@/components/CURD/types";
 
 const contentConfig: IContentConfig = {
-  pageName: "sys:user",
+  pageName: "live:users",
   table: {
     showOverflowTooltip: true,
   },

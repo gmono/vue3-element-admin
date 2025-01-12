@@ -4,7 +4,7 @@ import { IGiftItem } from "./types";
 import { apis } from "../../_apis/api";
 
 const modalConfig: IModalConfig<IGiftItem> = {
-  pageName: "sys:user",
+  pageName: "live:gift",
   dialog: {
     title: "新增礼物",
     width: 800,
@@ -13,7 +13,7 @@ const modalConfig: IModalConfig<IGiftItem> = {
   form: {
     labelWidth: 100,
   },
-  formAction: apis.addGift,
+  formAction: apis.gift.add,
   beforeSubmit(data) {
     console.log("添加礼物", data);
   },

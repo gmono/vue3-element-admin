@@ -22,9 +22,9 @@ export const followServer = createReq("/social/follow")
 export const socialServer = createReq("/social")
 
 export const interactServer = createReq("/interact")
-export interface IPageResult {
+export interface IPageResult<T = any> {
   current_page: number;
-  data: any[];
+  data: T[];
   page_size: number;
   total_count: number;
   total_pages: number;

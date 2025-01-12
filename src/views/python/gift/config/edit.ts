@@ -4,7 +4,7 @@ import { DeviceEnum } from "@/enums/DeviceEnum";
 import { useAppStore } from "@/store";
 
 const modalConfig: IModalConfig<UserForm> = {
-  pageName: "sys:user",
+  pageName: "live:gift",
   component: "drawer",
   drawer: {
     title: "修改用户",

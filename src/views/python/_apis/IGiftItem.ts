@@ -11,3 +11,7 @@ export interface IGiftItem {
   cost: number;
   show_icon_url: string;
 }
+
+export interface IGiftItemPageQuery extends PageQuery {
+
+}

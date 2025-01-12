@@ -59,7 +59,7 @@ const props = defineProps({
     default: () => [],
   },
   /**
-   * 上传地址
+   * 上传地址 默认值为使用本服务器上传接口
    */
   action: {
     type: String,

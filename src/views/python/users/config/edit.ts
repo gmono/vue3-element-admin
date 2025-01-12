@@ -4,11 +4,11 @@ import { DeviceEnum } from "@/enums/DeviceEnum";
 import { useAppStore } from "@/store";
 
 const modalConfig: IModalConfig<UserForm> = {
-  pageName: "sys:user",
+  pageName: "live:users",
   component: "drawer",
   drawer: {
     title: "修改用户",
-    size: useAppStore().device === DeviceEnum.MOBILE ? "80%" : 500,
+    size: useAppStore().device.value === DeviceEnum.MOBILE ? "80%" : 500,
   },
   pk: "id",
   formAction: function (data) {

@@ -3,7 +3,7 @@ import type { IModalConfig } from "@/components/CURD/types";
 import { IGiftItem } from "./types";
 
 const modalConfig: IModalConfig<IGiftItem> = {
-  pageName: "sys:user",
+  pageName: "live:users",
   dialog: {
     title: "新增礼物",
     width: 800,

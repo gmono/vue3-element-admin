@@ -4,7 +4,7 @@ import type { UserPageQuery } from "@/api/system/user";
 import type { IContentConfig } from "@/components/CURD/types";
 
 const contentConfig: IContentConfig<UserPageQuery> = {
-  pageName: "sys:user",
+  pageName: "live:users",
   table: {
     border: true,
     highlightCurrentRow: true,
