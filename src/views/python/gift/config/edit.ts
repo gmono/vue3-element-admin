@@ -2,46 +2,67 @@ import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
 import { DeviceEnum } from "@/enums/DeviceEnum";
 import { useAppStore } from "@/store";
+import { autoPickUploadFile } from "./autoPickUploadFile";
+import { IGiftItem } from "./types";
+import { apis } from "../../_apis/api";
 
-const modalConfig: IModalConfig<UserForm> = {
+const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "live:gift",
   component: "drawer",
   drawer: {
-    title: "修改用户",
+    title: "修改礼物",
     size: useAppStore().device.value === DeviceEnum.MOBILE ? "80%" : 500,
   },
   pk: "id",
-  formAction: function (data) {
-    return UserAPI.update(data.id as number, data);
+  formAction: (data) => {
+    let obj = { ...data }
+    autoPickUploadFile(obj, "svga_url")
+    if (!obj.id) throw "必须提供id"
+    return apis.gift.update(obj)
   },
   beforeSubmit(data) {
     console.log("提交之前处理", data);
   },
   formItems: [
     {
-      label: "用户名",
-      prop: "username",
-      rules: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+      label: "礼物名称",
+      prop: "name",
+      rules: [{ required: true, message: "礼物名称不能为空", trigger: "blur" }],
       type: "input",
       attrs: {
-        placeholder: "请输入用户名",
-        readonly: true,
+        placeholder: "请输入礼物名称",
+      },
+      col: {
+        xs: 24,
+        sm: 12,
       },
     },
     {
-      label: "用户昵称",
-      prop: "nickname",
-      rules: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
-      type: "input",
+      label: "礼物级别",
+      prop: "level",
+      rules: [{ required: true, message: "礼物级别不能为空", trigger: "blur" }],
+      type: "input-number",
+      initialValue: 1,
       attrs: {
-        placeholder: "请输入用户昵称",
+        placeholder: "请输入礼物级别",
+      },
+      col: {
+        xs: 24,
+        sm: 12,
       },
     },
+
     {
-      label: "所属部门",
-      prop: "deptId",
-      rules: [{ required: true, message: "所属部门不能为空", trigger: "blur" }],
-      type: "tree-select",
+      label: "价格",
+      prop: "cost",
+      type: "input-number",
+      initialValue: 1
+    },
+    {
+      label: "礼物动画",
+      prop: "svga_url",
+      type: "custom",
+      slotName: "value",
       attrs: {
         placeholder: "请选择所属部门",
         data: [],
@@ -51,66 +72,32 @@ const modalConfig: IModalConfig<UserForm> = {
       },
     },
     {
+      label: "礼物图标",
+      prop: "icon_url",
+      rules: [{ required: true, message: "必须设置礼物图标", trigger: "blur" }],
       type: "custom",
-      label: "性别",
-      prop: "gender",
-      initialValue: 1,
-    },
-    {
-      label: "角色",
-      prop: "roleIds",
-      rules: [{ required: true, message: "用户角色不能为空", trigger: "blur" }],
-      type: "select",
-      attrs: {
-        placeholder: "请选择",
-        multiple: true,
-      },
+      slotName: "icon",
       options: [],
       initialValue: [],
     },
     {
-      type: "input",
-      label: "手机号码",
-      prop: "mobile",
-      rules: [
-        {
-          pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-          message: "请输入正确的手机号码",
-          trigger: "blur",
-        },
-      ],
-      attrs: {
-        placeholder: "请输入手机号码",
-        maxlength: 11,
-      },
+      type: "custom",
+      rules: [{ required: true, message: "必须设置展示图标", trigger: "blur" }],
+      slotName: "show-icon",
+      label: "展示图标",
+      prop: "show_icon_url",
     },
     {
-      label: "邮箱",
-      prop: "email",
-      rules: [
-        {
-          pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
-          message: "请输入正确的邮箱地址",
-          trigger: "blur",
-        },
-      ],
+      label: "描述",
+      prop: "desc",
+      initialValue: "",
       type: "input",
       attrs: {
-        placeholder: "请输入邮箱",
+        placeholder: "请输入描述",
         maxlength: 50,
       },
     },
-    {
-      label: "状态",
-      prop: "status",
-      type: "switch",
-      attrs: {
-        activeText: "正常",
-        inactiveText: "禁用",
-        activeValue: 1,
-        inactiveValue: 0,
-      },
-    },
+
   ],
 };
 

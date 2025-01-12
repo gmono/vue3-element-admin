@@ -55,11 +55,14 @@ function makeCURDClient(client: AxiosInstance, prefix) {
       return (await client.post(urlJoin(prefix, "/create"), g))
     },
     async update(g: IGiftItem) {
-      return await client.put(urlJoin(prefix, "/update") + g.id, g)
+      return await client.put(urlJoin(prefix, "/update/") + g.id, g)
     },
     async delete(id) {
       console.log("删除", id)
-      return await client.delete(urlJoin(prefix, "/delete") + id)
+      return await client.delete(urlJoin(prefix, "/delete/") + id)
+    },
+    async getOne(id) {
+      return await client.get(urlJoin(prefix, "/detail/" + id))
     }
   }
 }

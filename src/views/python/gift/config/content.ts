@@ -64,7 +64,18 @@ const contentConfig: IContentConfig<IGiftItemPageQuery> = {
       width: 100,
       templet: "price",
     },
-    { label: "动画文件", align: "center", prop: "svga_url", width: 120 },
+    { label: "动画文件", align: "center", prop: "svga_url", width: 120, templet: "custom" },
+    {
+      label: "操作",
+      align: "center",
+      fixed: "right",
+      width: 200,
+      templet: "tool",
+      operat: [
+        "edit",
+        "delete",
+      ],
+    },
   ],
 };
 

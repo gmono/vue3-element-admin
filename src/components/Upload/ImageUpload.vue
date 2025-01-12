@@ -143,6 +143,7 @@ const props = defineProps({
       };
     },
   },
+  //---noprefix下 假设返回文件名filename  预览 使用getFileUrl函数处理
   noPrefix: {
     type: Boolean,
     default: false

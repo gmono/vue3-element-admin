@@ -2,16 +2,7 @@ import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
 import { IGiftItem } from "./types";
 import { apis } from "../../_apis/api";
-/**
- * 用于处理单个文件上传的情况 自动把上传控件提供的对象转换为url
- * @param obj 目标对象
- * @param prop 
- */
-function autoPickUploadFile<T>(obj: T, prop: keyof T) {
-  if (typeof obj[prop] == "object" && (obj[prop] as any) instanceof Array) {
-    obj[prop] = (obj[prop] as any)[0].url;
-  }
-}
+import { autoPickUploadFile } from "./autoPickUploadFile";
 const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "live:gift",
   dialog: {
@@ -68,7 +59,6 @@ const modalConfig: IModalConfig<IGiftItem> = {
     {
       label: "礼物动画",
       prop: "svga_url",
-      rules: [{ required: true, message: "所属部门不能为空", trigger: "blur" }],
       type: "custom",
       slotName: "value",
       attrs: {
