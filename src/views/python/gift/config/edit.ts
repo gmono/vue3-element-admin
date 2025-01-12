@@ -8,7 +8,7 @@ const modalConfig: IModalConfig<UserForm> = {
   component: "drawer",
   drawer: {
     title: "修改用户",
-    size: useAppStore().device === DeviceEnum.MOBILE ? "80%" : 500,
+    size: useAppStore().device.value === DeviceEnum.MOBILE ? "80%" : 500,
   },
   pk: "id",
   formAction: function (data) {

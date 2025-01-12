@@ -9,3 +9,23 @@ export function createReq(path) {
   })
   return req
 }
+
+
+//python后端服务器接口
+
+export const identityServer = createReq("/identity")
+
+export const videoServer = createReq("/videos")
+export const payServer = createReq("/payment")
+export const friendServer = createReq("/social/friend")
+export const followServer = createReq("/social/follow")
+export const socialServer = createReq("/social")
+
+export const interactServer = createReq("/interact")
+export interface IPageResult {
+  current_page: number;
+  data: any[];
+  page_size: number;
+  total_count: number;
+  total_pages: number;
+}

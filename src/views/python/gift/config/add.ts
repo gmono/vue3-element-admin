@@ -1,6 +1,7 @@
 import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
 import { IGiftItem } from "./types";
+import { apis } from "../../_apis/api";
 
 const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "sys:user",
@@ -12,9 +13,9 @@ const modalConfig: IModalConfig<IGiftItem> = {
   form: {
     labelWidth: 100,
   },
-  formAction: UserAPI.add,
+  formAction: apis.addGift,
   beforeSubmit(data) {
-    console.log("提交之前处理", data);
+    console.log("添加礼物", data);
   },
   formItems: [
     {

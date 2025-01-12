@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import defaultSettings from "@/settings";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 
 defineProps({
   collapse: {
@@ -30,7 +30,8 @@ defineProps({
   background-color: $sidebar-logo-background;
 
   .title {
-    flex-shrink: 0; /* 防止容器在空间不足时缩小 */
+    flex-shrink: 0;
+    /* 防止容器在空间不足时缩小 */
     margin-left: 10px;
     font-size: 14px;
     font-weight: bold;

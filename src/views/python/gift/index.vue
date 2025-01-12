@@ -75,6 +75,7 @@ import searchConfig from "./config/search";
 import ImageUpload from "@/components/Upload/ImageUpload.vue";
 import { UploadUserFile } from "element-plus";
 
+//核心模型
 const {
   searchRef,
   contentRef,
@@ -102,16 +103,15 @@ async function handleAddClick() {
 // 编辑
 async function handleEditClick(row: IObject) {
   editModalRef.value?.handleDisabled(false);
-  editModalRef.value?.setModalVisible();
-  // 加载部门下拉数据源
-  editModalConfig.formItems[2]!.attrs!.data = await DeptAPI.getOptions();
-  // 加载角色下拉数据源
-  editModalConfig.formItems[4]!.options = await RoleAPI.getOptions();
-  // 根据id获取数据进行填充
-  const data = await UserAPI.getFormData(row.id);
-  editModalRef.value?.setFormData(data);
+  editModalRef.value?.setModalVisible()
+  // // 根据id获取数据进行填充
+  // const data = await UserAPI.getFormData(row.id);
+  // editModalRef.value?.setFormData(data);
 }
 function handleOperatClick() {
+
+}
+function handleToolbarClick() {
 
 }
 // 切换示例

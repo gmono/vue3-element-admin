@@ -1,16 +1,13 @@
 <template>
   <div class="dashboard-container">
     <!-- github 角标 -->
-    <github-corner class="github-corner" />
+    <!-- <github-corner class="github-corner" /> -->
 
     <el-card shadow="never" class="mt-2">
       <el-row class="h-80px">
         <el-col :span="18" :xs="24">
           <div class="flex-x-start">
-            <img
-              class="wh-80px rounded-full"
-              :src="userStore.userInfo.avatar + '?imageView2/1/w/80/h/80'"
-            />
+            <img class="wh-80px rounded-full" :src="userStore.userInfo.avatar + '?imageView2/1/w/80/h/80'" />
             <div class="ml-5">
               <p>{{ greetings }}</p>
               <p class="text-sm text-gray">今日天气晴朗，气温在15℃至25℃之间，东南风。</p>
@@ -22,7 +19,9 @@
           <el-row class="h-80px flex-y-center" :gutter="10">
             <el-col :span="10">
               <div class="font-bold color-#ff9a2e text-sm flex-y-center">
-                <el-icon class="mr-2px"><Folder /></el-icon>
+                <el-icon class="mr-2px">
+                  <Folder />
+                </el-icon>
                 仓库
               </div>
               <div class="mt-3">
@@ -42,7 +41,9 @@
 
             <el-col :span="10">
               <div class="font-bold color-#4080ff text-sm flex-y-center">
-                <el-icon class="mr-2px"><Document /></el-icon>
+                <el-icon class="mr-2px">
+                  <Document />
+                </el-icon>
                 文档
               </div>
               <div class="mt-3">
@@ -50,10 +51,7 @@
                   <SvgIcon icon-class="juejin" class="text-lg" />
                 </el-link>
                 <el-divider direction="vertical" />
-                <el-link
-                  href="https://youlai.blog.csdn.net/article/details/130191394"
-                  target="_blank"
-                >
+                <el-link href="https://youlai.blog.csdn.net/article/details/130191394" target="_blank">
                   <SvgIcon icon-class="csdn" class="text-lg" />
                 </el-link>
                 <el-divider direction="vertical" />
@@ -65,7 +63,9 @@
 
             <el-col :span="4">
               <div class="font-bold color-#f76560 text-sm flex-y-center">
-                <el-icon class="mr-2px"><VideoCamera /></el-icon>
+                <el-icon class="mr-2px">
+                  <VideoCamera />
+                </el-icon>
                 视频
               </div>
               <div class="mt-3">
@@ -115,9 +115,7 @@
               <div class="flex-x-between mt-2">
                 <div class="flex-y-center">
                   <span class="text-lg">{{ visitStatsData.todayUvCount }}</span>
-                  <span
-                    :class="['text-xs', 'ml-2', getGrowthRateClass(visitStatsData.uvGrowthRate)]"
-                  >
+                  <span :class="['text-xs', 'ml-2', getGrowthRateClass(visitStatsData.uvGrowthRate)]">
                     <el-icon>
                       <Top v-if="visitStatsData.uvGrowthRate > 0" />
                       <Bottom v-else-if="visitStatsData.uvGrowthRate < 0" />
@@ -171,9 +169,7 @@
               <div class="flex-x-between mt-2">
                 <div class="flex-y-center">
                   <span class="text-lg">{{ visitStatsData.todayPvCount }}</span>
-                  <span
-                    :class="['text-xs', 'ml-2', getGrowthRateClass(visitStatsData.pvGrowthRate)]"
-                  >
+                  <span :class="['text-xs', 'ml-2', getGrowthRateClass(visitStatsData.pvGrowthRate)]">
                     <el-icon>
                       <Top v-if="visitStatsData.pvGrowthRate > 0" />
                       <Bottom v-else-if="visitStatsData.pvGrowthRate < 0" />
@@ -207,7 +203,9 @@
               <div class="flex-y-center">通知公告</div>
               <el-link type="primary">
                 <span class="text-xs" @click="handleViewMoreNotice">查看更多</span>
-                <el-icon class="text-xs"><ArrowRight /></el-icon>
+                <el-icon class="text-xs">
+                  <ArrowRight />
+                </el-icon>
               </el-link>
             </div>
           </template>
@@ -219,7 +217,9 @@
                 {{ item.title }}
               </el-text>
               <el-link @click="handleOpenNoticeDetail(item.id)">
-                <el-icon class="text-sm"><View /></el-icon>
+                <el-icon class="text-sm">
+                  <View />
+                </el-icon>
               </el-link>
             </div>
           </el-scrollbar>

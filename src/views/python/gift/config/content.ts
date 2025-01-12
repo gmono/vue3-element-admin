@@ -2,6 +2,7 @@ import UserAPI from "@/api/system/user";
 import RoleAPI from "@/api/system/role";
 import type { UserPageQuery } from "@/api/system/user";
 import type { IContentConfig } from "@/components/CURD/types";
+import { apis } from "../../_apis/api";
 
 const contentConfig: IContentConfig<UserPageQuery> = {
   pageName: "sys:user",
@@ -15,9 +16,11 @@ const contentConfig: IContentConfig<UserPageQuery> = {
     pageSize: 20,
     pageSizes: [10, 20, 30, 50],
   },
+  //分页获取数据
   indexAction: function (params) {
-    return UserAPI.getPage(params);
+    return apis.getGifts()
   },
+  //删除条目 批量 通过id
   deleteAction: UserAPI.deleteByIds,
   importAction(file) {
     return UserAPI.import(1, file);

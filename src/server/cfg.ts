@@ -9,7 +9,9 @@ export const basePath = "" //格式 xxx/xxx
 function axiosSync(url) {
   //使用host配置地址
   if (!useConfig && import.meta?.env?.Host) {
-    return import.meta.env.Host
+    let t = import.meta.env.Host
+    console.log("使用服务器:", t);
+    return t;
   }
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url, false); // 同步模式
