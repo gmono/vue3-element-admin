@@ -23,6 +23,16 @@ export const apis = {
  */
 function makeCURDClient(client: AxiosInstance, prefix) {
   return {
+
+    /**
+     * 和getpage一样但从1开始计算页
+     * @param pagenum 从1开始的页码
+     * @param pagesize 
+     * @returns 
+     */
+    async getPage_fromOne(pagenum, pagesize) {
+      return this.getPage(pagenum - 1, pagesize);
+    },
     /**
      * 获取page
      * @returns 

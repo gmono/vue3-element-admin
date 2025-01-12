@@ -1,20 +1,9 @@
 <template>
   <!-- drawer -->
   <template v-if="modalConfig.component === 'drawer'">
-    <el-drawer
-      v-model="modalVisible"
-      :append-to-body="true"
-      v-bind="modalConfig.drawer"
-      @close="handleCloseModal"
-    >
+    <el-drawer v-model="modalVisible" :append-to-body="true" v-bind="modalConfig.drawer" @close="handleCloseModal">
       <!-- 表单 -->
-      <el-form
-        ref="formRef"
-        label-width="auto"
-        v-bind="modalConfig.form"
-        :model="formData"
-        :rules="formRules"
-      >
+      <el-form ref="formRef" label-width="auto" v-bind="modalConfig.form" :model="formData" :rules="formRules">
         <el-row :gutter="20">
           <template v-for="item in formItems" :key="item.prop">
             <el-col v-show="!item.hidden" v-bind="item.col">
@@ -23,12 +12,7 @@
                 <template v-if="item.tips" #label>
                   <span>
                     {{ item.label }}
-                    <el-tooltip
-                      placement="bottom"
-                      effect="light"
-                      :content="item.tips"
-                      :raw-content="true"
-                    >
+                    <el-tooltip placement="bottom" effect="light" :content="item.tips" :raw-content="true">
                       <el-icon style="vertical-align: -0.15em" size="16">
                         <QuestionFilled />
                       </el-icon>
@@ -87,12 +71,7 @@
                 </template>
                 <!-- 自定义 -->
                 <template v-else-if="item.type === 'custom'">
-                  <slot
-                    :name="item.slotName ?? item.prop"
-                    :prop="item.prop"
-                    :formData="formData"
-                    :attrs="item.attrs"
-                  />
+                  <slot :name="item.slotName ?? item.prop" :prop="item.prop" :formData="formData" :attrs="item.attrs" />
                 </template>
               </el-form-item>
             </el-col>
@@ -113,26 +92,13 @@
   </template>
   <!-- dialog -->
   <template v-else>
-    <el-dialog
-      v-model="modalVisible"
-      :align-center="true"
-      :append-to-body="true"
-      width="70vw"
-      v-bind="modalConfig.dialog"
-      style="padding-right: 0"
-      @close="handleCloseModal"
-    >
+    <el-dialog v-model="modalVisible" :align-center="true" :append-to-body="true" width="70vw"
+      v-bind="modalConfig.dialog" style="padding-right: 0" @close="handleCloseModal">
       <!-- 滚动 -->
       <el-scrollbar max-height="60vh">
         <!-- 表单 -->
-        <el-form
-          ref="formRef"
-          label-width="auto"
-          v-bind="modalConfig.form"
-          style="padding-right: var(--el-dialog-padding-primary)"
-          :model="formData"
-          :rules="formRules"
-        >
+        <el-form ref="formRef" label-width="auto" v-bind="modalConfig.form"
+          style="padding-right: var(--el-dialog-padding-primary)" :model="formData" :rules="formRules">
           <el-row :gutter="20">
             <template v-for="item in formItems" :key="item.prop">
               <el-col v-show="!item.hidden" v-bind="item.col">
@@ -141,12 +107,7 @@
                   <template v-if="item.tips" #label>
                     <span>
                       {{ item.label }}
-                      <el-tooltip
-                        placement="bottom"
-                        effect="light"
-                        :content="item.tips"
-                        :raw-content="true"
-                      >
+                      <el-tooltip placement="bottom" effect="light" :content="item.tips" :raw-content="true">
                         <el-icon style="vertical-align: -0.15em" size="16">
                           <QuestionFilled />
                         </el-icon>
@@ -205,12 +166,8 @@
                   </template>
                   <!-- 自定义 -->
                   <template v-else-if="item.type === 'custom'">
-                    <slot
-                      :name="item.slotName ?? item.prop"
-                      :prop="item.prop"
-                      :formData="formData"
-                      :attrs="item.attrs"
-                    />
+                    <slot :name="item.slotName ?? item.prop" :prop="item.prop" :formData="formData"
+                      :attrs="item.attrs" />
                   </template>
                 </el-form-item>
               </el-col>
@@ -324,21 +281,25 @@ const handleSubmit = useThrottleFn(() => {
       if (typeof props.modalConfig.beforeSubmit === "function") {
         props.modalConfig.beforeSubmit(formData);
       }
-      props.modalConfig.formAction(formData).then(() => {
-        let msg = "操作成功";
-        if (props.modalConfig.component === "drawer") {
-          if (props.modalConfig.drawer?.title) {
-            msg = `${props.modalConfig.drawer?.title}成功`;
+      try {
+        props.modalConfig.formAction(formData).then(() => {
+          let msg = "操作成功";
+          if (props.modalConfig.component === "drawer") {
+            if (props.modalConfig.drawer?.title) {
+              msg = `${props.modalConfig.drawer?.title}成功`;
+            }
+          } else {
+            if (props.modalConfig.dialog?.title) {
+              msg = `${props.modalConfig.dialog?.title}成功`;
+            }
           }
-        } else {
-          if (props.modalConfig.dialog?.title) {
-            msg = `${props.modalConfig.dialog?.title}成功`;
-          }
-        }
-        ElMessage.success(msg);
-        emit("submitClick");
-        handleClose();
-      });
+          ElMessage.success(msg);
+          emit("submitClick");
+          handleClose();
+        });
+      } catch (e) {
+        ElMessage.error("操作失败!")
+      }
     }
   });
 }, 3000);

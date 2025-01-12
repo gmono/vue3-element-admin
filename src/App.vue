@@ -1,19 +1,15 @@
 <template>
   <el-config-provider :locale="locale" :size="size">
     <!-- 开启水印 -->
-    <el-watermark
-      :font="{ color: fontColor }"
-      :content="watermarkEnabled ? defaultSettings.watermarkContent : ''"
-      :z-index="9999"
-      class="wh-full"
-    >
+    <el-watermark :font="{ color: fontColor }" :content="watermarkEnabled ? defaultSettings.watermarkContent : ''"
+      :z-index="9999" class="wh-full">
       <router-view />
     </el-watermark>
   </el-config-provider>
 </template>
 
 <script setup lang="ts">
-import { useAppStore, useSettingsStore } from "@/store";
+import { useAppStore, useSettingsStore, useUserStore } from "@/store";
 import defaultSettings from "@/settings";
 import { ThemeEnum } from "@/enums/ThemeEnum";
 import { SizeEnum } from "@/enums/SizeEnum";
@@ -29,4 +25,11 @@ const watermarkEnabled = computed(() => settingsStore.watermarkEnabled);
 const fontColor = computed(() => {
   return settingsStore.theme === ThemeEnum.DARK ? "rgba(255, 255, 255, .15)" : "rgba(0, 0, 0, .15)";
 });
+
+let user = useUserStore()
+
+onBeforeRouteUpdate(() => {
+  console.log("刷新用户信息")
+  user.refreshUserInfo();
+})
 </script>

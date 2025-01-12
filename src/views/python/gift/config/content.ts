@@ -20,7 +20,7 @@ const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   //分页获取数据
   indexAction: async function (params) {
     console.log("获取礼物:", params);
-    let t = await apis.gift.getPage(params.pageNum, params.pageSize)
+    let t = await apis.gift.getPage_fromOne(params.pageNum, params.pageSize)
     console.log("礼物列表:", t);
 
     return t;

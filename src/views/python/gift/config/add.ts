@@ -2,7 +2,16 @@ import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
 import { IGiftItem } from "./types";
 import { apis } from "../../_apis/api";
-
+/**
+ * 用于处理单个文件上传的情况 自动把上传控件提供的对象转换为url
+ * @param obj 目标对象
+ * @param prop 
+ */
+function autoPickUploadFile<T>(obj: T, prop: keyof T) {
+  if (typeof obj[prop] == "object" && (obj[prop] as any) instanceof Array) {
+    obj[prop] = (obj[prop] as any)[0].url;
+  }
+}
 const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "live:gift",
   dialog: {
@@ -13,7 +22,11 @@ const modalConfig: IModalConfig<IGiftItem> = {
   form: {
     labelWidth: 100,
   },
-  formAction: apis.gift.add,
+  formAction: (data) => {
+    let obj = { ...data }
+    autoPickUploadFile(obj, "svga_url")
+    return apis.gift.add(obj)
+  },
   beforeSubmit(data) {
     console.log("添加礼物", data);
   },

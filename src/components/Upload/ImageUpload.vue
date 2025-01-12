@@ -2,60 +2,47 @@
 <template>
   <!-- 实际的上传组件（隐藏） -->
   <div style="display: none">
-    <el-upload
-      ref="uploadRef"
-      v-model:file-list="fileList"
-      :before-upload="handleBeforeUpload"
-      :action="props.action"
-      :headers="props.headers"
-      :data="props.data"
-      :name="props.name"
-      :on-success="handleSuccessFile"
-      :on-error="handleError"
-      :accept="props.accept"
-      :limit="props.limit"
-    />
+    <el-upload ref="uploadRef" v-model:file-list="fileList" :before-upload="handleBeforeUpload" :action="props.action"
+      :headers="props.headers" :data="props.data" :name="props.name" :on-success="handleSuccessFile"
+      :on-error="handleError" :accept="props.accept" :limit="props.limit" />
   </div>
 
   <!-- 自定义的显示区域 -->
   <div class="custom-upload-list">
     <!-- 已上传的图片列表 -->
     <div v-for="(path, index) in valFileList" :key="index" class="custom-upload-item">
-      <img class="upload-thumbnail" :src="path" alt="" />
+      <img class="upload-thumbnail" :src="getFileUrl(path)" alt="" />
       <div class="upload-actions">
         <span class="action-item preview" @click="previewImg(path)">
           <el-icon><zoom-in /></el-icon>
         </span>
         <span v-if="props.showDelBtn" class="action-item delete" @click="handleRemove(path)">
-          <el-icon><Delete /></el-icon>
+          <el-icon>
+            <Delete />
+          </el-icon>
         </span>
       </div>
     </div>
 
     <!-- 上传按钮 -->
-    <div
-      v-if="valFileList.length < props.limit && props.showUploadBtn"
-      class="custom-upload-trigger"
-      @click="triggerUpload"
-    >
-      <el-icon><Plus /></el-icon>
+    <div v-if="valFileList.length < props.limit && props.showUploadBtn" class="custom-upload-trigger"
+      @click="triggerUpload">
+      <el-icon>
+        <Plus />
+      </el-icon>
     </div>
   </div>
 
   <!-- 图片预览组件 -->
-  <el-image-viewer
-    v-if="viewVisible"
-    :zoom-rate="1.2"
-    :initialIndex="initialIndex"
-    :url-list="viewFileList"
-    @close="closePreview"
-  />
+  <el-image-viewer v-if="viewVisible" :zoom-rate="1.2" :initialIndex="initialIndex" :url-list="viewFileList"
+    @close="closePreview" />
 </template>
 <script setup lang="ts">
 import { UploadRawFile, UploadUserFile, UploadFile } from "element-plus";
 import FileAPI from "@/api/file";
 import { getToken } from "@/utils/auth";
 import { ResultEnum } from "@/enums/ResultEnum";
+import { getFileUrl } from "@/server/fileserver";
 
 const emit = defineEmits(["update:modelValue", "change"]);
 
@@ -156,6 +143,10 @@ const props = defineProps({
       };
     },
   },
+  noPrefix: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const viewVisible = ref(false);
@@ -168,6 +159,7 @@ const viewFileList = ref([] as string[]);
 // 添加一个ref来引用el-upload组件
 const uploadRef = ref();
 
+//与val urllist对应
 watch(
   () => props.modelValue,
   (newVal) => {
@@ -210,12 +202,14 @@ watch(
  * @param options
  */
 const handleSuccessFile = (response: any, file: UploadFile) => {
-  if (response.code === ResultEnum.SUCCESS) {
+  if (response.code === ResultEnum.SUCCESS || props.noPrefix) {
     ElMessage.success("上传成功");
-    valFileList.value.push(response.data.url);
+
+    let url = props.noPrefix ? response.filename : response.data.url;
+    valFileList.value.push(url)
     if (props.limit === 1) {
-      emit("update:modelValue", response.data.url);
-      emit("change", response.data.url);
+      emit("update:modelValue", url);
+      emit("change", url);
     } else {
       emit("update:modelValue", valFileList.value);
       emit("change", valFileList.value);
@@ -234,18 +228,26 @@ const handleError = (error: any) => {
  * 删除图片
  */
 function handleRemove(path: string) {
+  function inner() {
+    valFileList.value = valFileList.value.filter((x) => x !== path);
+    // 删除成功回调
+    if (props.limit === 1) {
+      emit("update:modelValue", "");
+      emit("change", "");
+    } else {
+      emit("update:modelValue", valFileList.value);
+      emit("change", valFileList.value);
+    }
+  }
   if (path) {
-    FileAPI.deleteByPath(path).then(() => {
-      valFileList.value = valFileList.value.filter((x) => x !== path);
-      // 删除成功回调
-      if (props.limit === 1) {
-        emit("update:modelValue", "");
-        emit("change", "");
-      } else {
-        emit("update:modelValue", valFileList.value);
-        emit("change", valFileList.value);
-      }
-    });
+    if (!props.noPrefix) {
+      FileAPI.deleteByPath(path).then(() => {
+        inner()
+      });
+    } else {
+      //noPrefix
+      inner()
+    }
   }
 }
 
@@ -287,7 +289,7 @@ function handleBeforeUpload(file: UploadRawFile) {
  * 预览图片
  */
 const previewImg = (path: string) => {
-  viewFileList.value = fileList.value.map((file) => file.url!);
+  viewFileList.value = fileList.value.map((file) => getFileUrl(file.url!));
   initialIndex.value = fileList.value.findIndex((file) => file.url === path);
   viewVisible.value = true;
 };

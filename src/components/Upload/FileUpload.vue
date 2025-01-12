@@ -159,6 +159,11 @@ const props = defineProps({
       };
     },
   },
+  //url无前缀模式  返回的url直接是path或文件名
+  noPrefix: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const fileList = ref([] as UploadUserFile[]);
@@ -216,12 +221,22 @@ function handleBeforeUpload(file: UploadRawFile) {
 const handleSuccessFile = (response: any, file: UploadFile) => {
   showUploadPercent.value = false;
   uploadPercent.value = 0;
-  if (response.code === ResultEnum.SUCCESS) {
+  //无前缀模式下 返回值为{filename:str}
+
+
+  if (response.code === ResultEnum.SUCCESS || props.noPrefix) {
     ElMessage.success("上传成功");
-    valFileList.value.push({
-      name: file.name,
-      url: response.data.url,
-    });
+    //接口 无前缀模式下 url等于文件名
+    if (props.noPrefix) {
+      valFileList.value.push({
+        name: file.name,
+        url: response.filename
+      })
+    } else
+      valFileList.value.push({
+        name: file.name,
+        url: response.data.url,
+      });
     emit("update:modelValue", valFileList.value);
     return;
   } else {

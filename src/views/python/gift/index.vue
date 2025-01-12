@@ -29,15 +29,18 @@
       <template #gender="scope">
         <Dict v-model="scope.formData[scope.prop]" code="gender" />
       </template>
-      <template #value>
+      <template #value="scope">
 
-        <FileUpload :action="apis.files.uploadUrl" v-model="svgafile" :limit="1" :max-size="10" />
+        <FileUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
+          :max-size="10" />
       </template>
-      <template #icon>
-        <ImageUpload v-model="iconfile" :limit="1" :max-size="10" />
+      <template #icon="scope">
+        <ImageUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
+          :max-size="10" />
       </template>
-      <template #show-icon>
-        <ImageUpload v-model="showiconFile" :limit="1" :max-size="10" />
+      <template #show-icon="scope">
+        <ImageUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
+          :max-size="10" />
       </template>
     </page-modal>
 

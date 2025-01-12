@@ -8,58 +8,37 @@
           <template v-if="typeof item === 'string'">
             <!-- 新增 -->
             <template v-if="item === 'add'">
-              <el-button
-                v-hasPerm="[`${contentConfig.pageName}:${item}`]"
-                type="success"
-                icon="plus"
-                @click="handleToolbar(item)"
-              >
+              <el-button v-hasPerm="[`${contentConfig.pageName}:${item}`]" type="success" icon="plus"
+                @click="handleToolbar(item)">
                 新增
               </el-button>
             </template>
             <!-- 删除 -->
             <template v-else-if="item === 'delete'">
-              <el-button
-                v-hasPerm="[`${contentConfig.pageName}:${item}`]"
-                type="danger"
-                icon="delete"
-                :disabled="removeIds.length === 0"
-                @click="handleToolbar(item)"
-              >
+              <el-button v-hasPerm="[`${contentConfig.pageName}:${item}`]" type="danger" icon="delete"
+                :disabled="removeIds.length === 0" @click="handleToolbar(item)">
                 删除
               </el-button>
             </template>
             <!-- 导入 -->
             <template v-else-if="item === 'import'">
-              <el-button
-                v-hasPerm="[`${contentConfig.pageName}:${item}`]"
-                type="default"
-                icon="upload"
-                @click="handleToolbar(item)"
-              >
+              <el-button v-hasPerm="[`${contentConfig.pageName}:${item}`]" type="default" icon="upload"
+                @click="handleToolbar(item)">
                 导入
               </el-button>
             </template>
             <!-- 导出 -->
             <template v-else-if="item === 'export'">
-              <el-button
-                v-hasPerm="[`${contentConfig.pageName}:${item}`]"
-                type="default"
-                icon="download"
-                @click="handleToolbar(item)"
-              >
+              <el-button v-hasPerm="[`${contentConfig.pageName}:${item}`]" type="default" icon="download"
+                @click="handleToolbar(item)">
                 导出
               </el-button>
             </template>
           </template>
           <!-- 其他 -->
           <template v-else-if="typeof item === 'object'">
-            <el-button
-              v-hasPerm="[`${contentConfig.pageName}:${item.auth}`]"
-              :icon="item.icon"
-              :type="item.type ?? 'default'"
-              @click="handleToolbar(item.name)"
-            >
+            <el-button v-hasPerm="[`${contentConfig.pageName}:${item.auth}`]" :icon="item.icon"
+              :type="item.type ?? 'default'" @click="handleToolbar(item.name)">
               {{ item.text }}
             </el-button>
           </template>
@@ -88,68 +67,36 @@
             </template>
             <!-- 导出 -->
             <template v-else-if="item === 'exports'">
-              <el-button
-                v-hasPerm="[`${contentConfig.pageName}:export`]"
-                icon="download"
-                circle
-                title="导出"
-                @click="handleToolbar(item)"
-              />
+              <el-button v-hasPerm="[`${contentConfig.pageName}:export`]" icon="download" circle title="导出"
+                @click="handleToolbar(item)" />
             </template>
             <!-- 导入 -->
             <template v-else-if="item === 'imports'">
-              <el-button
-                v-hasPerm="[`${contentConfig.pageName}:import`]"
-                icon="upload"
-                circle
-                title="导入"
-                @click="handleToolbar(item)"
-              />
+              <el-button v-hasPerm="[`${contentConfig.pageName}:import`]" icon="upload" circle title="导入"
+                @click="handleToolbar(item)" />
             </template>
             <!-- 搜索 -->
             <template v-else-if="item === 'search'">
-              <el-button
-                v-hasPerm="[`${contentConfig.pageName}:query`]"
-                icon="search"
-                circle
-                title="搜索"
-                @click="handleToolbar(item)"
-              />
+              <el-button v-hasPerm="[`${contentConfig.pageName}:query`]" icon="search" circle title="搜索"
+                @click="handleToolbar(item)" />
             </template>
           </template>
           <!-- 其他 -->
           <template v-else-if="typeof item === 'object'">
             <template v-if="item.auth">
-              <el-button
-                v-hasPerm="[`${contentConfig.pageName}:${item.auth}`]"
-                :icon="item.icon"
-                circle
-                :title="item.title"
-                @click="handleToolbar(item.name)"
-              />
+              <el-button v-hasPerm="[`${contentConfig.pageName}:${item.auth}`]" :icon="item.icon" circle
+                :title="item.title" @click="handleToolbar(item.name)" />
             </template>
             <template v-else>
-              <el-button
-                :icon="item.icon"
-                circle
-                :title="item.title"
-                @click="handleToolbar(item.name)"
-              />
+              <el-button :icon="item.icon" circle :title="item.title" @click="handleToolbar(item.name)" />
             </template>
           </template>
         </template>
       </div>
     </div>
     <!-- 列表 -->
-    <el-table
-      ref="tableRef"
-      v-loading="loading"
-      v-bind="contentConfig.table"
-      :data="pageData"
-      :row-key="pk"
-      @selection-change="handleSelectionChange"
-      @filter-change="handleFilterChange"
-    >
+    <el-table ref="tableRef" v-loading="loading" v-bind="contentConfig.table" :data="pageData" :row-key="pk"
+      @selection-change="handleSelectionChange" @filter-change="handleFilterChange">
       <template v-for="col in cols" :key="col">
         <el-table-column v-if="col.show" v-bind="col">
           <template #default="scope">
@@ -158,22 +105,16 @@
               <template v-if="col.prop">
                 <template v-if="Array.isArray(scope.row[col.prop])">
                   <template v-for="(item, index) in scope.row[col.prop]" :key="item">
-                    <el-image
-                      :src="item"
-                      :preview-src-list="scope.row[col.prop]"
-                      :initial-index="index"
+                    <el-image :src="imageProc.checkFileUrl(item)"
+                      :preview-src-list="imageProc.checkFileUrls(scope.row[col.prop])" :initial-index="index"
                       :preview-teleported="true"
-                      :style="`width: ${col.imageWidth ?? 40}px; height: ${col.imageHeight ?? 40}px`"
-                    />
+                      :style="`width: ${col.imageWidth ?? 40}px; height: ${col.imageHeight ?? 40}px`" />
                   </template>
                 </template>
                 <template v-else>
-                  <el-image
-                    :src="scope.row[col.prop]"
-                    :preview-src-list="[scope.row[col.prop]]"
-                    :preview-teleported="true"
-                    :style="`width: ${col.imageWidth ?? 40}px; height: ${col.imageHeight ?? 40}px`"
-                  />
+                  <el-image :src="imageProc.checkFileUrl(scope.row[col.prop])"
+                    :preview-src-list="imageProc.checkFileUrls([scope.row[col.prop]])" :preview-teleported="true"
+                    :style="`width: ${col.imageWidth ?? 40}px; height: ${col.imageHeight ?? 40}px`" />
                 </template>
               </template>
             </template>
@@ -186,8 +127,8 @@
             <!-- 格式化显示链接 -->
             <template v-else-if="col.templet === 'url'">
               <template v-if="col.prop">
-                <el-link type="primary" :href="scope.row[col.prop]" target="_blank">
-                  {{ scope.row[col.prop] }}
+                <el-link type="primary" :href="fileProc.checkFileUrl(scope.row[col.prop])" target="_blank">
+                  {{ fileProc.checkFileUrl(scope.row[col.prop]) }}
                 </el-link>
               </template>
             </template>
@@ -195,30 +136,20 @@
             <template v-else-if="col.templet === 'switch'">
               <template v-if="col.prop">
                 <!-- pageData.length>0: 解决el-switch组件会在表格初始化的时候触发一次change事件 -->
-                <el-switch
-                  v-model="scope.row[col.prop]"
-                  :active-value="col.activeValue ?? 1"
-                  :inactive-value="col.inactiveValue ?? 0"
-                  :inline-prompt="true"
-                  :active-text="col.activeText ?? ''"
-                  :inactive-text="col.inactiveText ?? ''"
-                  :validate-event="false"
-                  :disabled="!hasAuth(`${contentConfig.pageName}:modify`)"
-                  @change="
+                <el-switch v-model="scope.row[col.prop]" :active-value="col.activeValue ?? 1"
+                  :inactive-value="col.inactiveValue ?? 0" :inline-prompt="true" :active-text="col.activeText ?? ''"
+                  :inactive-text="col.inactiveText ?? ''" :validate-event="false"
+                  :disabled="!hasAuth(`${contentConfig.pageName}:modify`)" @change="
                     pageData.length > 0 && handleModify(col.prop, scope.row[col.prop], scope.row)
-                  "
-                />
+                    " />
               </template>
             </template>
             <!-- 生成输入框组件 -->
             <template v-else-if="col.templet === 'input'">
               <template v-if="col.prop">
-                <el-input
-                  v-model="scope.row[col.prop]"
-                  :type="col.inputType ?? 'text'"
+                <el-input v-model="scope.row[col.prop]" :type="col.inputType ?? 'text'"
                   :disabled="!hasAuth(`${contentConfig.pageName}:modify`)"
-                  @blur="handleModify(col.prop, scope.row[col.prop], scope.row)"
-                />
+                  @blur="handleModify(col.prop, scope.row[col.prop], scope.row)" />
               </template>
             </template>
             <!-- 格式化为价格 -->
@@ -250,7 +181,7 @@
                 {{
                   scope.row[col.prop]
                     ? useDateFormat(scope.row[col.prop], col.dateFormat ?? "YYYY-MM-DD HH:mm:ss")
-                        .value
+                      .value
                     : ""
                 }}
               </template>
@@ -261,45 +192,30 @@
                 <template v-if="typeof item === 'string'">
                   <!-- 编辑/删除 -->
                   <template v-if="item === 'edit' || item === 'delete'">
-                    <el-button
-                      v-hasPerm="[`${contentConfig.pageName}:${item}`]"
-                      :type="item === 'edit' ? 'primary' : 'danger'"
-                      :icon="item"
-                      size="small"
-                      link
-                      @click="
+                    <el-button v-hasPerm="[`${contentConfig.pageName}:${item}`]"
+                      :type="item === 'edit' ? 'primary' : 'danger'" :icon="item" size="small" link @click="
                         handleOperat({
                           name: item,
                           row: scope.row,
                           column: scope.column,
                           $index: scope.$index,
                         })
-                      "
-                    >
+                        ">
                       {{ item === "edit" ? "编辑" : "删除" }}
                     </el-button>
                   </template>
                 </template>
                 <!-- 其他 -->
                 <template v-else-if="typeof item === 'object'">
-                  <el-button
-                    v-if="item.render === undefined || item.render(scope.row)"
-                    v-bind="
-                      item.auth ? { 'v-hasPerm': [`${contentConfig.pageName}:${item.auth}`] } : {}
-                    "
-                    :icon="item.icon"
-                    :type="item.type ?? 'primary'"
-                    size="small"
-                    link
-                    @click="
+                  <el-button v-if="item.render === undefined || item.render(scope.row)" v-bind="item.auth ? { 'v-hasPerm': [`${contentConfig.pageName}:${item.auth}`] } : {}
+                    " :icon="item.icon" :type="item.type ?? 'primary'" size="small" link @click="
                       handleOperat({
                         name: item.name,
                         row: scope.row,
                         column: scope.column,
                         $index: scope.$index,
                       })
-                    "
-                  >
+                      ">
                     {{ item.text }}
                   </el-button>
                 </template>
@@ -317,33 +233,18 @@
     <template v-if="showPagination">
       <el-scrollbar>
         <div class="mt-[12px]">
-          <el-pagination
-            v-bind="pagination"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          />
+          <el-pagination v-bind="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
         </div>
       </el-scrollbar>
     </template>
     <!-- 导出弹窗 -->
-    <el-dialog
-      v-model="exportsModalVisible"
-      :align-center="true"
-      title="导出数据"
-      width="600px"
-      style="padding-right: 0"
-      @close="handleCloseExportsModal"
-    >
+    <el-dialog v-model="exportsModalVisible" :align-center="true" title="导出数据" width="600px" style="padding-right: 0"
+      @close="handleCloseExportsModal">
       <!-- 滚动 -->
       <el-scrollbar max-height="60vh">
         <!-- 表单 -->
-        <el-form
-          ref="exportsFormRef"
-          label-width="auto"
-          style="padding-right: var(--el-dialog-padding-primary)"
-          :model="exportsFormData"
-          :rules="exportsFormRules"
-        >
+        <el-form ref="exportsFormRef" label-width="auto" style="padding-right: var(--el-dialog-padding-primary)"
+          :model="exportsFormData" :rules="exportsFormRules">
           <el-form-item label="文件名" prop="filename">
             <el-input v-model="exportsFormData.filename" clearable />
           </el-form-item>
@@ -353,16 +254,10 @@
           <el-form-item label="数据源" prop="origin">
             <el-select v-model="exportsFormData.origin">
               <el-option label="当前数据 (当前页的数据)" :value="ExportsOriginEnum.CURRENT" />
-              <el-option
-                label="选中数据 (所有选中的数据)"
-                :value="ExportsOriginEnum.SELECTED"
-                :disabled="selectionData.length <= 0"
-              />
-              <el-option
-                label="全量数据 (所有分页的数据)"
-                :value="ExportsOriginEnum.REMOTE"
-                :disabled="contentConfig.exportsAction === undefined"
-              />
+              <el-option label="选中数据 (所有选中的数据)" :value="ExportsOriginEnum.SELECTED"
+                :disabled="selectionData.length <= 0" />
+              <el-option label="全量数据 (所有分页的数据)" :value="ExportsOriginEnum.REMOTE"
+                :disabled="contentConfig.exportsAction === undefined" />
             </el-select>
           </el-form-item>
           <el-form-item label="字段" prop="fields">
@@ -383,35 +278,17 @@
       </template>
     </el-dialog>
     <!-- 导入弹窗 -->
-    <el-dialog
-      v-model="importModalVisible"
-      :align-center="true"
-      title="导入数据"
-      width="600px"
-      style="padding-right: 0"
-      @close="handleCloseImportModal"
-    >
+    <el-dialog v-model="importModalVisible" :align-center="true" title="导入数据" width="600px" style="padding-right: 0"
+      @close="handleCloseImportModal">
       <!-- 滚动 -->
       <el-scrollbar max-height="60vh">
         <!-- 表单 -->
-        <el-form
-          ref="importFormRef"
-          label-width="auto"
-          style="padding-right: var(--el-dialog-padding-primary)"
-          :model="importFormData"
-          :rules="importFormRules"
-        >
+        <el-form ref="importFormRef" label-width="auto" style="padding-right: var(--el-dialog-padding-primary)"
+          :model="importFormData" :rules="importFormRules">
           <el-form-item label="文件名" prop="files">
-            <el-upload
-              ref="uploadRef"
-              v-model:file-list="importFormData.files"
-              class="w-full"
+            <el-upload ref="uploadRef" v-model:file-list="importFormData.files" class="w-full"
               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-              :drag="true"
-              :limit="1"
-              :auto-upload="false"
-              :on-exceed="handleFileExceed"
-            >
+              :drag="true" :limit="1" :auto-upload="false" :on-exceed="handleFileExceed">
               <el-icon class="el-icon--upload"><upload-filled /></el-icon>
               <div class="el-upload__text">
                 <span>将文件拖到此处，或</span>
@@ -420,13 +297,8 @@
               <template #tip>
                 <div class="el-upload__tip">
                   *.xlsx / *.xls
-                  <el-link
-                    v-if="contentConfig.importTemplate"
-                    type="primary"
-                    icon="download"
-                    :underline="false"
-                    @click="handleDownloadTemplate"
-                  >
+                  <el-link v-if="contentConfig.importTemplate" type="primary" icon="download" :underline="false"
+                    @click="handleDownloadTemplate">
                     下载模板
                   </el-link>
                 </div>
@@ -438,11 +310,7 @@
       <!-- 弹窗底部操作按钮 -->
       <template #footer>
         <div style="padding-right: var(--el-dialog-padding-primary)">
-          <el-button
-            type="primary"
-            :disabled="importFormData.files.length === 0"
-            @click="handleImportSubmit"
-          >
+          <el-button type="primary" :disabled="importFormData.files.length === 0" @click="handleImportSubmit">
             确 定
           </el-button>
           <el-button @click="handleCloseImportModal">取 消</el-button>
@@ -469,10 +337,37 @@ import ExcelJS from "exceljs";
 import { reactive, ref } from "vue";
 import type { IContentConfig, IObject, IOperatData } from "./types";
 
+//复原文件url
+function useUrlChecker(trans) {
+
+  function checkFileUrl(url: string) {
+    if (props.getFileUrl) return trans(url)
+    else return url;
+  }
+  function checkFileUrls(urls: string[]) {
+    return urls.map(v => checkFileUrl(v))
+  }
+  return {
+    checkFileUrl, checkFileUrls
+  }
+}
+
 // 定义接收的属性
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   contentConfig: IContentConfig;
-}>();
+  getFileUrl?: (fn: string) => string
+  getImageUrl?: (fn: string) => string
+}>(), {
+});
+
+let imageProc = useUrlChecker((v) => {
+  if (props.getFileUrl == null && props.getImageUrl == null) return v;
+  return (props.getImageUrl || props.getFileUrl)!(v)
+})
+let fileProc = useUrlChecker(v => {
+  if (props.getFileUrl == null) return v;
+  return props.getFileUrl!(v)
+})
 // 定义自定义事件
 const emit = defineEmits<{
   addClick: [];
@@ -912,10 +807,10 @@ function fetchPageData(formData: IObject = {}, isRestart = false) {
     .indexAction(
       showPagination
         ? {
-            [request.pageName]: pagination.currentPage,
-            [request.limitName]: pagination.pageSize,
-            ...formData,
-          }
+          [request.pageName]: pagination.currentPage,
+          [request.limitName]: pagination.pageSize,
+          ...formData,
+        }
         : formData
     )
     .then((data) => {

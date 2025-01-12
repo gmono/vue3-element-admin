@@ -52,7 +52,9 @@ export const useUserStore = defineStore("user", () => {
         });
     });
   }
-
+  async function refreshUserInfo() {
+    await getUserInfo()
+  }
   /**
    * 登出
    */
@@ -105,6 +107,7 @@ export const useUserStore = defineStore("user", () => {
 
   return {
     userInfo,
+    refreshUserInfo,
     getUserInfo,
     login,
     logout,
