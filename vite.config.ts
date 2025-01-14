@@ -37,7 +37,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           api: "modern-compiler",
           additionalData: `
             @use "@/styles/variables.scss" as *;
-            @use "element-plus/theme-chalk/src/index.scss" as *; 
           `,
         },
       },
