@@ -3,7 +3,7 @@ import RoleAPI from "@/api/system/role";
 import type { UserPageQuery } from "@/api/system/user";
 import type { IContentConfig } from "@/components/CURD/types";
 import { apis } from "../../_apis/api";
-import { IGiftItem, IGiftItemPageQuery } from "../../_apis/IGiftItem";
+import { IGiftItem, IGiftItemPageQuery } from "../../_apis/types";
 
 const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   pageName: "live:gift",

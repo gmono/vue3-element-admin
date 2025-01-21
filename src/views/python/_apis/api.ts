@@ -1,5 +1,5 @@
-import { interactServer, IPageResult } from "@/server/request";
-import { IGiftItem } from "./IGiftItem";
+import { interactServer, IPageResult, userAdminServer, userInfoServer } from "@/server/request";
+import { IGiftItem } from "./types";
 import { AxiosInstance } from "axios";
 import urlJoin from "url-join";
 import { fileServer, uploadFile, uploadUrl } from "@/server/fileserver";
@@ -7,6 +7,8 @@ import { fileServer, uploadFile, uploadUrl } from "@/server/fileserver";
 //保存特定api
 export const apis = {
   gift: makeCURDClient(interactServer, "/gift"),
+
+  user: makeCURDClient(userInfoServer, "/admin"),
   files: {
     upload(file: File) {
       return uploadFile(file)

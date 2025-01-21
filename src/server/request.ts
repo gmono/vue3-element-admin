@@ -22,6 +22,10 @@ export const followServer = createReq("/social/follow")
 export const socialServer = createReq("/social")
 
 export const interactServer = createReq("/interact")
+//---用户信息服务器
+export const userInfoServer = createReq("/user-info")
+
+export const userAdminServer = createReq("/user-info/admin")
 export interface IPageResult<T = any> {
   current_page: number;
   data: T[];

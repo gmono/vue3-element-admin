@@ -1,8 +1,9 @@
 import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
-import { IGiftItem } from "./types";
+
 import { apis } from "../../_apis/api";
-import { autoPickUploadFile } from "./autoPickUploadFile";
+import { autoPickUploadFile } from "../../_apis/autoPickUploadFile";
+import { IGiftItem } from "../../_apis/types";
 const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "live:gift",
   dialog: {

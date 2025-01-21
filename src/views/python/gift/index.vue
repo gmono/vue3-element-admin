@@ -88,7 +88,7 @@ import { UploadUserFile } from "element-plus";
 import { apis } from "../_apis/api";
 import { getFileUrl } from "@/server/fileserver";
 import SVGAPlayer from "./SVGAPlayer.vue";
-import { IGiftItem } from "../_apis/IGiftItem";
+import { IGiftItem } from "../_apis/types";
 defineOptions({
   name: "GiftMgr"
 })

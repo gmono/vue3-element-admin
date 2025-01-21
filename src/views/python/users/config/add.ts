@@ -1,7 +1,9 @@
 import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
-import { IGiftItem } from "./types";
 
+import { apis } from "../../_apis/api";
+import { autoPickUploadFile } from "../../_apis/autoPickUploadFile";
+import { IGiftItem } from "../../_apis/types";
 const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "live:users",
   dialog: {
@@ -12,9 +14,13 @@ const modalConfig: IModalConfig<IGiftItem> = {
   form: {
     labelWidth: 100,
   },
-  formAction: UserAPI.add,
+  formAction: (data) => {
+    let obj = { ...data }
+    autoPickUploadFile(obj, "svga_url")
+    return apis.gift.add(obj)
+  },
   beforeSubmit(data) {
-    console.log("提交之前处理", data);
+    console.log("添加礼物", data);
   },
   formItems: [
     {
@@ -54,7 +60,6 @@ const modalConfig: IModalConfig<IGiftItem> = {
     {
       label: "礼物动画",
       prop: "svga_url",
-      rules: [{ required: true, message: "所属部门不能为空", trigger: "blur" }],
       type: "custom",
       slotName: "value",
       attrs: {

@@ -2,7 +2,7 @@ import DeptAPI from "@/api/system/dept";
 import type { ISearchConfig } from "@/components/CURD/types";
 
 const searchConfig: ISearchConfig = {
-  pageName: "live:users",
+  pageName: "live:gift",
   formItems: [
     {
       type: "input",

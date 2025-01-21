@@ -2,9 +2,10 @@ import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
 import { DeviceEnum } from "@/enums/DeviceEnum";
 import { useAppStore } from "@/store";
-import { autoPickUploadFile } from "./autoPickUploadFile";
-import { IGiftItem } from "./types";
+import { autoPickUploadFile } from "../../_apis/autoPickUploadFile";
+
 import { apis } from "../../_apis/api";
+import { IGiftItem } from "../../_apis/types";
 
 const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "live:gift",
