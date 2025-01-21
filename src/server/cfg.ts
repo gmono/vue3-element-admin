@@ -1,5 +1,6 @@
 const local = "localhost"
 const remote = "192.168.199.165"
+const common = "159.75.243.179"
 export let server = local
 //是否使用config文件 默认为false config文件可运行时修改服务器地址
 const useConfig = false;

@@ -4,10 +4,11 @@ import type { IModalConfig } from "@/components/CURD/types";
 import { apis } from "../../_apis/api";
 import { autoPickUploadFile } from "../../_apis/autoPickUploadFile";
 import { IGiftItem } from "../../_apis/types";
+import { addTitle, apiObj, objName } from "./common";
 const modalConfig: IModalConfig<IGiftItem> = {
   pageName: "live:users",
   dialog: {
-    title: "新增礼物",
+    title: addTitle,
     width: 800,
     draggable: true,
   },
@@ -16,21 +17,15 @@ const modalConfig: IModalConfig<IGiftItem> = {
   },
   formAction: (data) => {
     let obj = { ...data }
-    autoPickUploadFile(obj, "svga_url")
-    return apis.gift.add(obj)
+    return apiObj.add(obj)
   },
   beforeSubmit(data) {
-    console.log("添加礼物", data);
   },
   formItems: [
     {
-      label: "礼物名称",
-      prop: "name",
-      rules: [{ required: true, message: "礼物名称不能为空", trigger: "blur" }],
-      type: "input",
-      attrs: {
-        placeholder: "请输入礼物名称",
-      },
+      label: "用户名",
+      prop: "username",
+      type: "text",
       col: {
         xs: 24,
         sm: 12,

@@ -2,8 +2,9 @@ import UserAPI from "@/api/system/user";
 import RoleAPI from "@/api/system/role";
 import type { UserPageQuery } from "@/api/system/user";
 import type { IContentConfig } from "@/components/CURD/types";
-import { apis } from "../../_apis/api";
+// import { apis } from "../../_apis/api";
 import { IGiftItem, IGiftItemPageQuery } from "../../_apis/types";
+import { apiObj } from "./common";
 
 const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   pageName: "live:users",
@@ -20,11 +21,11 @@ const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   //分页获取数据
   indexAction: async function (params) {
     console.log("参数", params);
-    let t = await apis.user.getPage_fromOne(params.pageNum, params.pageSize)
+    let t = await apiObj.getPage_fromOne(params.pageNum, params.pageSize)
     return t;
   },
   //删除条目 批量 通过id
-  deleteAction: apis.gift.delete,
+  deleteAction: apiObj.delete,
   // importAction(file) {
   //   return UserAPI.import(1, file);
   // },
@@ -41,7 +42,7 @@ const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   //   console.log("exportsAction", res.list);
   //   return res.list;
   // },
-  pk: "id",
+  pk: "username",
   // 工具栏
   toolbar: [
     "add",
@@ -51,18 +52,18 @@ const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   defaultToolbar: ["refresh", "filter", "imports", "exports", "search"],
   cols: [
     { type: "selection", width: 50, align: "center" },
-    { label: "编号", align: "center", prop: "id", width: 100, show: false },
-    { label: "名称", align: "center", prop: "name" },
-    { label: "图标", align: "center", prop: "icon_url", templet: "image" },
-    { label: "展示图标", align: "center", prop: "show_icon_url", width: 120, templet: "image" },
+    { label: "用户名", align: "center", prop: "username", width: 100, show: false },
+    { label: "昵称", align: "center", prop: "nickname" },
+    { label: "头像", align: "center", prop: "avatarUrl", templet: "image" },
+    { label: "签名", align: "center", prop: "summary", width: 120 },
     {
-      label: "价格",
+      label: "金币数",
       align: "center",
-      prop: "cost",
+      prop: "coin",
       width: 100,
       templet: "price",
     },
-    { label: "动画文件", align: "center", prop: "svga_url", width: 120, templet: "custom" },
+    { label: "性别", align: "center", prop: "gender", width: 120 },
     {
       label: "操作",
       align: "center",

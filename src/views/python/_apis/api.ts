@@ -1,4 +1,4 @@
-import { interactServer, IPageResult, userAdminServer, userInfoServer } from "@/server/request";
+import { interactServer, IPageResult, userAdminServer, userInfoServer, videoServer } from "@/server/request";
 import { IGiftItem } from "./types";
 import { AxiosInstance } from "axios";
 import urlJoin from "url-join";
@@ -9,6 +9,7 @@ export const apis = {
   gift: makeCURDClient(interactServer, "/gift"),
 
   user: makeCURDClient(userInfoServer, "/admin"),
+  videos: makeCURDClient(videoServer, "/videos"),
   files: {
     upload(file: File) {
       return uploadFile(file)
