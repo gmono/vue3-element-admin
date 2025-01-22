@@ -3,11 +3,12 @@ import RoleAPI from "@/api/system/role";
 import type { UserPageQuery } from "@/api/system/user";
 import type { IContentConfig } from "@/components/CURD/types";
 // import { apis } from "../../_apis/api";
-import { IGiftItem, IGiftItemPageQuery } from "../../_apis/types";
+import { IGiftItem, IGiftItemPageQuery, PagedItem } from "../../_apis/types";
 import { apiObj } from "./common";
 
-const contentConfig: IContentConfig<IGiftItemPageQuery> = {
-  pageName: "live:users",
+//表格配置
+const contentConfig: IContentConfig<PagedItem<any>> = {
+  pageName: "live:gift",
   table: {
     border: true,
     highlightCurrentRow: true,
@@ -52,7 +53,7 @@ const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   defaultToolbar: ["refresh", "filter", "imports", "exports", "search"],
   cols: [
     { type: "selection", width: 50, align: "center" },
-    { label: "用户名", align: "center", prop: "username", width: 100, show: false },
+    { label: "用户名", align: "center", prop: "username", width: 100 },
     { label: "昵称", align: "center", prop: "nickname" },
     { label: "头像", align: "center", prop: "avatarUrl", templet: "image" },
     { label: "签名", align: "center", prop: "summary", width: 120 },

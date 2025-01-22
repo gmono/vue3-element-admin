@@ -3,13 +3,7 @@
     <!-- 登录页头部 -->
     <div class="login-header">
       <div class="flex-y-center">
-        <el-switch
-          v-model="isDark"
-          inline-prompt
-          active-icon="Moon"
-          inactive-icon="Sunny"
-          @change="toggleTheme"
-        />
+        <el-switch v-model="isDark" inline-prompt active-icon="Moon" inactive-icon="Sunny" @change="toggleTheme" />
         <lang-select class="ml-2 cursor-pointer" />
       </div>
     </div>
@@ -26,20 +20,7 @@
               </el-icon>
             </div>
             <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>
-                  <el-tag>{{ defaultSettings.version }}</el-tag>
-                </el-dropdown-item>
-                <el-dropdown-item @click="setLoginCredentials('root', '123456')">
-                  超级管理员：root/123456
-                </el-dropdown-item>
-                <el-dropdown-item @click="setLoginCredentials('admin', '123456')">
-                  系统管理员：admin/123456
-                </el-dropdown-item>
-                <el-dropdown-item @click="setLoginCredentials('test', '123456')">
-                  测试小游客：test/123456
-                </el-dropdown-item>
-              </el-dropdown-menu>
+
             </template>
           </el-dropdown>
         </div>
@@ -50,14 +31,8 @@
             <el-icon class="mx-2">
               <User />
             </el-icon>
-            <el-input
-              ref="username"
-              v-model="loginData.username"
-              :placeholder="$t('login.username')"
-              name="username"
-              size="large"
-              class="h-[48px]"
-            />
+            <el-input ref="username" v-model="loginData.username" :placeholder="$t('login.username')" name="username"
+              size="large" class="h-[48px]" />
           </div>
         </el-form-item>
 
@@ -68,17 +43,9 @@
               <el-icon class="mx-2">
                 <Lock />
               </el-icon>
-              <el-input
-                v-model="loginData.password"
-                :placeholder="$t('login.password')"
-                type="password"
-                name="password"
-                size="large"
-                class="h-[48px] pr-2"
-                show-password
-                @keyup="checkCapslock"
-                @keyup.enter="handleLoginSubmit"
-              />
+              <el-input v-model="loginData.password" :placeholder="$t('login.password')" type="password" name="password"
+                size="large" class="h-[48px] pr-2" show-password @keyup="checkCapslock"
+                @keyup.enter="handleLoginSubmit" />
             </div>
           </el-form-item>
         </el-tooltip>
@@ -87,14 +54,8 @@
         <el-form-item prop="captchaCode">
           <div class="input-wrapper">
             <svg-icon icon-class="captcha" class="mx-2" />
-            <el-input
-              v-model="loginData.captchaCode"
-              auto-complete="off"
-              size="large"
-              class="flex-1"
-              :placeholder="$t('login.captchaCode')"
-              @keyup.enter="handleLoginSubmit"
-            />
+            <el-input v-model="loginData.captchaCode" auto-complete="off" size="large" class="flex-1"
+              :placeholder="$t('login.captchaCode')" @keyup.enter="handleLoginSubmit" />
 
             <el-image :src="captchaBase64" class="captcha-img" @click="getCaptcha" />
           </div>
@@ -111,13 +72,7 @@
         </div>
 
         <!-- 登录按钮 -->
-        <el-button
-          :loading="loading"
-          type="primary"
-          size="large"
-          class="w-full"
-          @click.prevent="handleLoginSubmit"
-        >
+        <el-button :loading="loading" type="primary" size="large" class="w-full" @click.prevent="handleLoginSubmit">
           {{ $t("login.login") }}
         </el-button>
 
@@ -136,10 +91,10 @@
 
     <!-- 登录页底部 -->
     <div class="login-footer">
-      <el-text size="small">
+      <!-- <el-text size="small">
         Copyright © 2021 - 2025 youlai.tech All Rights Reserved.
         <a href="http://beian.miit.gov.cn/" target="_blank">皖ICP备20006496号-2</a>
-      </el-text>
+      </el-text> -->
     </div>
   </div>
 </template>
@@ -333,7 +288,7 @@ onMounted(() => {
     border-radius: 5px;
     box-shadow: var(--el-box-shadow-light);
 
-    @media (width <= 460px) {
+    @media (width <=460px) {
       width: 100%;
       padding: 20px;
     }

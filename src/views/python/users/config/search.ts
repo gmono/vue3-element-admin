@@ -6,10 +6,10 @@ const searchConfig: ISearchConfig = {
   formItems: [
     {
       type: "input",
-      label: "礼物名称",
+      label: "用户名",
       prop: "keywords",
       attrs: {
-        placeholder: "请输入礼物名称",
+        placeholder: "请输入用户名",
         clearable: true,
         style: {
           width: "200px",

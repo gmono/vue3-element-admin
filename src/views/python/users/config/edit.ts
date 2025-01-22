@@ -8,7 +8,7 @@ import { apis } from "../../_apis/api";
 import { IGiftItem } from "../../_apis/types";
 
 const modalConfig: IModalConfig<IGiftItem> = {
-  pageName: "live:gift",
+  pageName: "live:users",
   component: "drawer",
   drawer: {
     title: "修改礼物",
@@ -26,26 +26,23 @@ const modalConfig: IModalConfig<IGiftItem> = {
   },
   formItems: [
     {
-      label: "礼物名称",
-      prop: "name",
-      rules: [{ required: true, message: "礼物名称不能为空", trigger: "blur" }],
+      label: "用户名",
+      prop: "username",
+      rules: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
       type: "input",
-      attrs: {
-        placeholder: "请输入礼物名称",
-      },
       col: {
         xs: 24,
         sm: 12,
       },
     },
     {
-      label: "礼物级别",
-      prop: "level",
-      rules: [{ required: true, message: "礼物级别不能为空", trigger: "blur" }],
-      type: "input-number",
-      initialValue: 1,
+      label: "昵称",
+      prop: "nickname",
+      rules: [{ required: true, message: "昵称不能为空", trigger: "blur" }],
+      type: "input",
+      initialValue: "无昵称",
       attrs: {
-        placeholder: "请输入礼物级别",
+        placeholder: "请输入用户昵称",
       },
       col: {
         xs: 24,
@@ -54,18 +51,12 @@ const modalConfig: IModalConfig<IGiftItem> = {
     },
 
     {
-      label: "价格",
-      prop: "cost",
-      type: "input-number",
-      initialValue: 1
-    },
-    {
-      label: "礼物动画",
-      prop: "svga_url",
+      label: "头像",
+      prop: "avatarUrl",
       type: "custom",
       slotName: "value",
       attrs: {
-        placeholder: "请选择所属部门",
+        placeholder: "选择头像",
         data: [],
         filterable: true,
         "check-strictly": true,
@@ -73,28 +64,18 @@ const modalConfig: IModalConfig<IGiftItem> = {
       },
     },
     {
-      label: "礼物图标",
-      prop: "icon_url",
-      rules: [{ required: true, message: "必须设置礼物图标", trigger: "blur" }],
-      type: "custom",
-      slotName: "icon",
-      options: [],
-      initialValue: [],
-    },
-    {
-      type: "custom",
-      rules: [{ required: true, message: "必须设置展示图标", trigger: "blur" }],
-      slotName: "show-icon",
-      label: "展示图标",
-      prop: "show_icon_url",
-    },
-    {
-      label: "描述",
-      prop: "desc",
-      initialValue: "",
+      label: "签名",
+      prop: "summary",
       type: "input",
+      initialValue: ""
+    },
+    {
+      label: "金币",
+      prop: "desc",
+      initialValue: 0,
+      type: "input-number",
       attrs: {
-        placeholder: "请输入描述",
+        placeholder: "请输入用户金币",
         maxlength: 50,
       },
     },

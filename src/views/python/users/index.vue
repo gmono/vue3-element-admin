@@ -6,6 +6,7 @@
     <page-search ref="searchRef" :search-config="searchConfig" @query-click="handleQueryClick"
       @reset-click="handleResetClick" />
 
+
     <!-- 列表 -->
     <page-content :get-file-url="(v) => getFileUrl(v)" ref="contentRef" :content-config="contentConfig"
       @add-click="handleAddClick" @edit-click="handleEditClick" @export-click="handleExportClick"
@@ -129,12 +130,11 @@ async function handleEditClick(row: IObject) {
   // // 加载角色下拉数据源
   // editModalConfig.formItems[4]!.options = await RoleAPI.getOptions();
   // 根据id获取数据进行填充
-  const data = (await apis.gift.getOne(row.id)).data as IGiftItem
-
-  (data.svga_url as any) = [{
-    name: data.svga_url,
-    url: data.svga_url
-  }]
+  const data = (await apiObj.getOne(row.id)).data
+    (data.svga_url as any) = [{
+      name: data.svga_url,
+      url: data.svga_url
+    }]
   editModalRef.value?.setFormData(data);
 }
 //执行操作
