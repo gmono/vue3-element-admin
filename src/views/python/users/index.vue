@@ -23,32 +23,12 @@
       </template>
     </page-content>
 
-    <el-dialog v-model="svga_vis" title="礼物展示">
-      <main>
-        <SVGAPlayer style="height: 500px;width: 300px;margin:auto" :url="svga_file" />
-      </main>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button type="primary" @click="svga_vis = false">关闭 </el-button>
-        </span>
-      </template>
-    </el-dialog>
 
     <!-- 新增 -->
     <page-modal ref="addModalRef" :modal-config="addModalConfig" @submit-click="handleSubmitClick">
-      <template #gender="scope">
-        <Dict v-model="scope.formData[scope.prop]" code="gender" />
-      </template>
-      <template #value="scope">
 
-        <FileUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
-          :max-size="10" />
-      </template>
-      <template #icon="scope">
-        <ImageUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
-          :max-size="10" />
-      </template>
-      <template #show-icon="scope">
+      <!-- 头像 -->
+      <template #value="scope">
         <ImageUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
           :max-size="10" />
       </template>
@@ -57,15 +37,6 @@
     <!-- 编辑 -->
     <page-modal ref="editModalRef" :modal-config="editModalConfig" @submit-click="handleSubmitClick">
       <template #value="scope">
-
-        <FileUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
-          :max-size="10" />
-      </template>
-      <template #icon="scope">
-        <ImageUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
-          :max-size="10" />
-      </template>
-      <template #show-icon="scope">
         <ImageUpload no-prefix :action="apis.files.uploadUrl" v-model="scope.formData[scope.prop]" :limit="1"
           :max-size="10" />
       </template>
@@ -81,7 +52,7 @@ import type { IObject, IOperatData } from "@/components/CURD/types";
 import usePage from "@/components/CURD/usePage";
 import addModalConfig from "./config/add";
 import contentConfig from "./config/content";
-import contentConfig2 from "./config/content2";
+
 import editModalConfig from "./config/edit";
 import searchConfig from "./config/search";
 import ImageUpload from "@/components/Upload/ImageUpload.vue";
@@ -89,6 +60,7 @@ import { UploadUserFile } from "element-plus";
 import { apis } from "../_apis/api";
 import { getFileUrl } from "@/server/fileserver";
 import { IGiftItem } from "../_apis/types";
+import { apiObj } from "./config/common";
 defineOptions({
   name: "LiveUserMgr"
 })
@@ -130,17 +102,17 @@ async function handleEditClick(row: IObject) {
   // // 加载角色下拉数据源
   // editModalConfig.formItems[4]!.options = await RoleAPI.getOptions();
   // 根据id获取数据进行填充
-  const data = (await apiObj.getOne(row.id)).data
-    (data.svga_url as any) = [{
-      name: data.svga_url,
-      url: data.svga_url
-    }]
+  const data = (await apiObj.getOne(row.username)).data as any
+  // (data.avatarUrl as any) = [{
+  //   name: data.avatarUrl,
+  //   url: getFileUrl(data.avatarUrl)
+  // }]
   editModalRef.value?.setFormData(data);
 }
 //执行操作
 async function handleOperatClick(obj: IOperatData) {
-  await apis.gift.delete(obj.row.id);
-  ElMessage.success("删除成功")
+  // await apiObj.delete(obj.row.username);
+  // ElMessage.success("删除成功")
 }
 function handleToolbarClick() {
 

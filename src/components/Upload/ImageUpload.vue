@@ -182,7 +182,7 @@ watch(
       return;
     }
 
-    if (modelValue.length <= 0) {
+    if (modelValue == null || modelValue.length <= 0) {
       fileList.value = [];
       viewFileList.value = [];
       valFileList.value = [];

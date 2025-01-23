@@ -42,7 +42,7 @@ const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   //   console.log("exportsAction", res.list);
   //   return res.list;
   // },
-  pk: "username",
+  pk: "id",
   // 工具栏
   toolbar: [
     "add",
@@ -52,9 +52,10 @@ const contentConfig: IContentConfig<IGiftItemPageQuery> = {
   defaultToolbar: ["refresh", "filter", "imports", "exports", "search"],
   cols: [
     { type: "selection", width: 50, align: "center" },
-    { label: "标题", align: "center", prop: "title", width: 100, show: false },
-    { label: "url", align: "center", prop: "url" },
+    { label: "标题", align: "center", prop: "title", width: 100 },
+    { label: "视频", align: "center", prop: "url", templet: "custom" },
     { label: "封面", align: "center", prop: "coverImg", templet: "image" },
+    { label: "背景音乐", align: "center", prop: "musicUrl", templet: "custom" },
     { label: "发布者", align: "center", prop: "username", width: 120 },
     {
       label: "价格",

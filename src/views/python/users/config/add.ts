@@ -68,7 +68,7 @@ const modalConfig: IModalConfig<IGiftItem> = {
     },
     {
       label: "金币",
-      prop: "desc",
+      prop: "coin",
       initialValue: 0,
       type: "input-number",
       attrs: {

@@ -6,46 +6,46 @@ import { autoPickUploadFile } from "../../_apis/autoPickUploadFile";
 
 import { apis } from "../../_apis/api";
 import { IGiftItem } from "../../_apis/types";
+import { apiObj, editTitle } from "./common";
 
-const modalConfig: IModalConfig<IGiftItem> = {
+const modalConfig: IModalConfig<any> = {
   pageName: "live:gift",
   component: "drawer",
   drawer: {
-    title: "修改礼物",
+    title: editTitle,
     size: useAppStore().device.value === DeviceEnum.MOBILE ? "80%" : 500,
   },
   pk: "id",
   formAction: (data) => {
+    console.log(data)
     let obj = { ...data }
-    autoPickUploadFile(obj, "svga_url")
+    autoPickUploadFile(obj, "musicUrl")
+    autoPickUploadFile(obj, "url")
+
     if (!obj.id) throw "必须提供id"
-    return apis.gift.update(obj)
+    return apiObj.update(obj)
   },
   beforeSubmit(data) {
     console.log("提交之前处理", data);
   },
   formItems: [
     {
-      label: "礼物名称",
-      prop: "name",
-      rules: [{ required: true, message: "礼物名称不能为空", trigger: "blur" }],
+      label: "视频标题",
+      prop: "title",
       type: "input",
-      attrs: {
-        placeholder: "请输入礼物名称",
-      },
       col: {
         xs: 24,
         sm: 12,
       },
     },
     {
-      label: "礼物级别",
-      prop: "level",
-      rules: [{ required: true, message: "礼物级别不能为空", trigger: "blur" }],
-      type: "input-number",
+      label: "发布者",
+      prop: "username",
+      rules: [{ required: true, message: "发布者不能为空", trigger: "blur" }],
+      type: "input",
       initialValue: 1,
       attrs: {
-        placeholder: "请输入礼物级别",
+        placeholder: "请输入发布者用户名",
       },
       col: {
         xs: 24,
@@ -60,40 +60,54 @@ const modalConfig: IModalConfig<IGiftItem> = {
       initialValue: 1
     },
     {
-      label: "礼物动画",
-      prop: "svga_url",
-      type: "custom",
-      slotName: "value",
-      attrs: {
-        placeholder: "请选择所属部门",
-        data: [],
-        filterable: true,
-        "check-strictly": true,
-        "render-after-expand": false,
-      },
+      label: "是否收费",
+      prop: "need_cost",
+      type: "select",
+      options: [
+        {
+          label: "是",
+          value: true
+        }, {
+          label: "否",
+          value: false
+        }
+      ],
+      initialValue: false
     },
     {
-      label: "礼物图标",
-      prop: "icon_url",
-      rules: [{ required: true, message: "必须设置礼物图标", trigger: "blur" }],
+      label: "文案",
+      prop: "desc",
+      type: "input",
+    },
+
+    {
+      label: "封面",
+      prop: "coverImg",
       type: "custom",
-      slotName: "icon",
+      slotName: "cover"
+    },
+    {
+      label: "背景音乐",
+      prop: "musicUrl",
+
+      type: "custom",
+      slotName: "music",
       options: [],
       initialValue: [],
     },
     {
       type: "custom",
-      rules: [{ required: true, message: "必须设置展示图标", trigger: "blur" }],
-      slotName: "show-icon",
-      label: "展示图标",
-      prop: "show_icon_url",
+      slotName: "video",
+      label: "视频文件",
+      prop: "url",
     },
     {
-      label: "描述",
-      prop: "desc",
-      initialValue: "",
-      type: "input",
+      label: "喜欢数",
+      prop: "likes",
+      initialValue: 0,
+      type: "input-number",
       attrs: {
+        min: 0,
         placeholder: "请输入描述",
         maxlength: 50,
       },

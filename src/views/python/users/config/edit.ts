@@ -6,20 +6,21 @@ import { autoPickUploadFile } from "../../_apis/autoPickUploadFile";
 
 import { apis } from "../../_apis/api";
 import { IGiftItem } from "../../_apis/types";
+import { apiObj } from "./common";
 
-const modalConfig: IModalConfig<IGiftItem> = {
+const modalConfig: IModalConfig<any> = {
   pageName: "live:users",
   component: "drawer",
   drawer: {
-    title: "修改礼物",
+    title: "修改用户",
     size: useAppStore().device.value === DeviceEnum.MOBILE ? "80%" : 500,
   },
-  pk: "id",
+  pk: "username",
   formAction: (data) => {
     let obj = { ...data }
-    autoPickUploadFile(obj, "svga_url")
-    if (!obj.id) throw "必须提供id"
-    return apis.gift.update(obj)
+    autoPickUploadFile(obj, "avatarUrl")
+    if (!obj.username) throw "必须提供用户名"
+    return apiObj.update(obj)
   },
   beforeSubmit(data) {
     console.log("提交之前处理", data);
@@ -71,7 +72,7 @@ const modalConfig: IModalConfig<IGiftItem> = {
     },
     {
       label: "金币",
-      prop: "desc",
+      prop: "coin",
       initialValue: 0,
       type: "input-number",
       attrs: {

@@ -21,6 +21,7 @@ export const friendServer = createReq("/social/friend")
 export const followServer = createReq("/social/follow")
 export const socialServer = createReq("/social")
 
+export const trtcServer = createReq("/trtc")
 export const interactServer = createReq("/interact")
 //---用户信息服务器
 export const userInfoServer = createReq("/user-info")

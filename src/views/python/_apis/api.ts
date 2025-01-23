@@ -1,5 +1,5 @@
-import { interactServer, IPageResult, userAdminServer, userInfoServer, videoServer } from "@/server/request";
-import { IGiftItem } from "./types";
+import { interactServer, IPageResult, trtcServer, userAdminServer, userInfoServer, videoServer } from "@/server/request";
+import { IGiftItem, RoomItem } from "./types";
 import { AxiosInstance } from "axios";
 import urlJoin from "url-join";
 import { fileServer, uploadFile, uploadUrl } from "@/server/fileserver";
@@ -8,8 +8,20 @@ import { fileServer, uploadFile, uploadUrl } from "@/server/fileserver";
 export const apis = {
   gift: makeCURDClient(interactServer, "/gift"),
 
-  user: makeCURDClient(userInfoServer, "/admin"),
-  videos: makeCURDClient(videoServer, "/videos"),
+  //用户信息 且可以修改coin
+  user: {
+    ...makeCURDClient(userInfoServer, "/admin", "username"),
+
+    //设置密码
+    async updatePassword(p: { username, password }) {
+      await userInfoServer.put("/admin/update/password", {
+        ...p
+      })
+    }
+  },
+
+  videos: makeCURDClient(videoServer, "/admin"),
+  room: makeCURDClient<RoomItem>(trtcServer, "/admin", "room_id"),
   files: {
     upload(file: File) {
       return uploadFile(file)
@@ -24,7 +36,7 @@ export const apis = {
  * @param prefix 挂载点
  * @returns 
  */
-function makeCURDClient(client: AxiosInstance, prefix) {
+function makeCURDClient<T = IGiftItem>(client: AxiosInstance, prefix, keyProp = "id") {
   return {
 
     /**
@@ -41,7 +53,7 @@ function makeCURDClient(client: AxiosInstance, prefix) {
      * @returns 
      */
     async getPage(pagenum, pagesize) {
-      let obj = (await client.get<IPageResult<IGiftItem>>(urlJoin(prefix, "/page"), {
+      let obj = (await client.get<IPageResult<T>>(urlJoin(prefix, "/page"), {
         params: {
           pageIndex: pagenum,
           pageSize: pagesize
@@ -51,14 +63,14 @@ function makeCURDClient(client: AxiosInstance, prefix) {
       return {
         list: obj.data,
         total: obj.total_count
-      } as PageResult<IGiftItem[]>;
+      } as PageResult<T[]>;
     },
     //添加一个礼物
-    async add(g: Partial<IGiftItem>) {
+    async add(g: Partial<T>) {
       return (await client.post(urlJoin(prefix, "/create"), g))
     },
-    async update(g: IGiftItem) {
-      return await client.put(urlJoin(prefix, "/update/") + g.id, g)
+    async update(g: T) {
+      return await client.put(urlJoin(prefix, "/update/") + g[keyProp], g)
     },
     async delete(id) {
       console.log("删除", id)

@@ -7,6 +7,10 @@
  */
 export function autoPickUploadFile<T>(obj: T, prop: keyof T) {
   if (typeof obj[prop] == "object" && (obj[prop] as any) instanceof Array) {
-    obj[prop] = (obj[prop] as any)[0].url;
+    if (obj[prop] == null || (obj[prop] as any).length == 0) {
+      obj[prop] = null as any;
+
+    } else
+      obj[prop] = (obj[prop] as any)[0].url;
   }
 }

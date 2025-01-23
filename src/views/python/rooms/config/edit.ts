@@ -2,115 +2,133 @@ import UserAPI, { type UserForm } from "@/api/system/user";
 import type { IModalConfig } from "@/components/CURD/types";
 import { DeviceEnum } from "@/enums/DeviceEnum";
 import { useAppStore } from "@/store";
+import { autoPickUploadFile } from "../../_apis/autoPickUploadFile";
 
-const modalConfig: IModalConfig<UserForm> = {
-  pageName: "sys:user",
+import { apis } from "../../_apis/api";
+import { IGiftItem, RoomItem } from "../../_apis/types";
+import { apiObj, editTitle } from "./common";
+
+const modalConfig: IModalConfig<RoomItem> = {
+  pageName: "live:gift",
   component: "drawer",
   drawer: {
-    title: "修改用户",
-    size: useAppStore().device === DeviceEnum.MOBILE ? "80%" : 500,
+    title: editTitle,
+    size: useAppStore().device.value === DeviceEnum.MOBILE ? "80%" : 500,
   },
-  pk: "id",
-  formAction: function (data) {
-    return UserAPI.update(data.id as number, data);
+  pk: "room_id",
+  formAction: (data) => {
+    let obj = { ...data }
+
+    console.log(obj)
+    if (obj.room_id == null) throw "必须提供id"
+    return apiObj.update(obj)
   },
   beforeSubmit(data) {
     console.log("提交之前处理", data);
   },
   formItems: [
     {
-      label: "用户名",
+      label: "房间标题",
+      prop: "title",
+      type: "input",
+      col: {
+        xs: 24,
+        sm: 12,
+      },
+    },
+    {
+      label: "所属者",
       prop: "username",
-      rules: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "发布者不能为空", trigger: "blur" }],
       type: "input",
-      attrs: {
-        placeholder: "请输入用户名",
-        readonly: true,
-      },
-    },
-    {
-      label: "用户昵称",
-      prop: "nickname",
-      rules: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
-      type: "input",
-      attrs: {
-        placeholder: "请输入用户昵称",
-      },
-    },
-    {
-      label: "所属部门",
-      prop: "deptId",
-      rules: [{ required: true, message: "所属部门不能为空", trigger: "blur" }],
-      type: "tree-select",
-      attrs: {
-        placeholder: "请选择所属部门",
-        data: [],
-        filterable: true,
-        "check-strictly": true,
-        "render-after-expand": false,
-      },
-    },
-    {
-      type: "custom",
-      label: "性别",
-      prop: "gender",
       initialValue: 1,
+      attrs: {
+        placeholder: "请输入发布者用户名",
+      },
+      col: {
+        xs: 24,
+        sm: 12,
+      },
     },
     {
-      label: "角色",
-      prop: "roleIds",
-      rules: [{ required: true, message: "用户角色不能为空", trigger: "blur" }],
+      label: "房间号",
+      prop: "room_id",
+      type: "input-number",
+      initialValue: 1
+    },
+
+    {
+      label: "房间类型",
+      prop: "room_type",
       type: "select",
+      options: [
+        {
+          label: "普通房",
+          value: 0
+        }, {
+          label: "金币房",
+          value: 1
+        }, {
+          label: "单人房",
+          value: 2
+        }
+      ],
+      initialValue: 0
+    },
+    {
+      label: "金币房价格",
+      prop: "cost",
+      type: "input-number",
+      initialValue: 1
+    },
+    {
+      label: "单人房用户限制",
+      prop: "limit_username",
+      type: "input",
+      initialValue: ""
+    },
+
+    {
+      label: "房间时间限制",
+      prop: "time_limit",
+      type: "time-picker",
       attrs: {
-        placeholder: "请选择",
-        multiple: true,
       },
+      initialValue: 1
+    },
+    {
+      label: "封面",
+      prop: "coverImg",
+      type: "custom",
+      slotName: "cover"
+    },
+    {
+      label: "背景音乐",
+      prop: "musicUrl",
+
+      type: "custom",
+      slotName: "music",
       options: [],
       initialValue: [],
     },
     {
-      type: "input",
-      label: "手机号码",
-      prop: "mobile",
-      rules: [
-        {
-          pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-          message: "请输入正确的手机号码",
-          trigger: "blur",
-        },
-      ],
-      attrs: {
-        placeholder: "请输入手机号码",
-        maxlength: 11,
-      },
+      type: "custom",
+      slotName: "video",
+      label: "视频文件",
+      prop: "url",
     },
     {
-      label: "邮箱",
-      prop: "email",
-      rules: [
-        {
-          pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
-          message: "请输入正确的邮箱地址",
-          trigger: "blur",
-        },
-      ],
-      type: "input",
+      label: "喜欢数",
+      prop: "links",
+      initialValue: 0,
+      type: "input-number",
       attrs: {
-        placeholder: "请输入邮箱",
+        min: 0,
+        placeholder: "请输入描述",
         maxlength: 50,
       },
     },
-    {
-      label: "状态",
-      prop: "status",
-      type: "switch",
-      attrs: {
-        activeText: "正常",
-        inactiveText: "禁用",
-        activeValue: 1,
-        inactiveValue: 0,
-      },
-    },
+
   ],
 };
 

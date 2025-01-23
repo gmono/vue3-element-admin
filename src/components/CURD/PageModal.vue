@@ -63,6 +63,11 @@
                 <template v-else-if="item.type === 'date-picker'">
                   <el-date-picker v-model="formData[item.prop]" v-bind="item.attrs" />
                 </template>
+
+                <!-- 时间选择器 -->
+                <template v-else-if="item.type == 'time-picker'">
+                  <el-time-picker v-model="formData[item.prop]" arrow-control placeholder="选择时间" />
+                </template>
                 <!-- Text 文本 -->
                 <template v-else-if="item.type === 'text'">
                   <el-text v-bind="item.attrs">
@@ -297,8 +302,9 @@ const handleSubmit = useThrottleFn(() => {
           emit("submitClick");
           handleClose();
         });
-      } catch (e) {
-        ElMessage.error("操作失败!")
+      } catch (e: any) {
+        ElMessage.error("操作失败:" + e.toString())
+        console.error(e)
       }
     }
   });

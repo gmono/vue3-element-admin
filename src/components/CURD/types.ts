@@ -61,13 +61,13 @@ export interface IContentConfig<T = any> {
   table?: Omit<TableProps<any>, "data">;
   // pagination组件属性
   pagination?:
-    | boolean
-    | Partial<
-        Omit<
-          PaginationProps,
-          "v-model:page-size" | "v-model:current-page" | "total" | "currentPage"
-        >
-      >;
+  | boolean
+  | Partial<
+    Omit<
+      PaginationProps,
+      "v-model:page-size" | "v-model:current-page" | "total" | "currentPage"
+    >
+  >;
   // 列表的网络请求函数(需返回promise)
   indexAction: (queryParams: T) => Promise<any>;
   // 默认的分页相关的请求参数
@@ -108,12 +108,12 @@ export interface IContentConfig<T = any> {
     | "import"
     | "export"
     | {
-        auth: string;
-        icon?: string;
-        name: string;
-        text: string;
-        type?: "primary" | "success" | "warning" | "danger" | "info";
-      }
+      auth: string;
+      icon?: string;
+      name: string;
+      text: string;
+      type?: "primary" | "success" | "warning" | "danger" | "info";
+    }
   >;
   // 表格工具栏右侧图标
   defaultToolbar?: Array<
@@ -123,11 +123,11 @@ export interface IContentConfig<T = any> {
     | "exports"
     | "search"
     | {
-        name: string;
-        icon: string;
-        title?: string;
-        auth?: string;
-      }
+      name: string;
+      icon: string;
+      title?: string;
+      auth?: string;
+    }
   >;
   // table组件列属性(额外的属性templet,operat,slotName)
   cols: Array<{
@@ -142,17 +142,17 @@ export interface IContentConfig<T = any> {
     show?: boolean;
     // 模板
     templet?:
-      | "image"
-      | "list"
-      | "url"
-      | "switch"
-      | "input"
-      | "price"
-      | "percent"
-      | "icon"
-      | "date"
-      | "tool"
-      | "custom";
+    | "image"
+    | "list"
+    | "url"
+    | "switch"
+    | "input"
+    | "price"
+    | "percent"
+    | "icon"
+    | "date"
+    | "tool"
+    | "custom";
     // image模板相关参数
     imageWidth?: number;
     imageHeight?: number;
@@ -174,13 +174,13 @@ export interface IContentConfig<T = any> {
       | "edit"
       | "delete"
       | {
-          auth?: string;
-          icon?: string;
-          name: string;
-          text: string;
-          type?: "primary" | "success" | "warning" | "danger" | "info";
-          render?: (row: IObject) => boolean;
-        }
+        auth?: string;
+        icon?: string;
+        name: string;
+        text: string;
+        type?: "primary" | "success" | "warning" | "danger" | "info";
+        render?: (row: IObject) => boolean;
+      }
     >;
     // filter值拼接符
     filterJoin?: string;
@@ -217,16 +217,16 @@ export type IForm = Partial<Omit<FormProps, "model" | "rules">>;
 export type IFormItems<T = any> = Array<{
   // 组件类型(如input,select,radio,custom等，默认input)
   type?:
-    | "input"
-    | "select"
-    | "radio"
-    | "switch"
-    | "checkbox"
-    | "tree-select"
-    | "date-picker"
-    | "input-number"
-    | "text"
-    | "custom";
+  | "input"
+  | "select"
+  | "radio"
+  | "switch"
+  | "checkbox"
+  | "tree-select"
+  | "date-picker"
+  | "input-number"
+  | "text"
+  | "custom" | "time-picker";
   // 组件属性
   attrs?: IObject;
   // 组件可选项(适用于select,radio,checkbox组件)

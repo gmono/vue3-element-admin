@@ -188,17 +188,17 @@ watch(
       return;
     }
 
-    if (newVal.length <= 0) {
+    if (newVal == null || newVal.length <= 0) {
       fileList.value = [];
       valFileList.value = [];
       return;
     }
 
-    fileList.value = newVal.map((file) => {
+    fileList.value = newVal == null ? [] : newVal.map((file) => {
       return { name: file.name, url: file.url } as UploadFile;
     });
 
-    valFileList.value = newVal.map((file) => {
+    valFileList.value = newVal == null ? [] : newVal.map((file) => {
       return { name: file.name, url: file.url } as UploadFile;
     });
   },
