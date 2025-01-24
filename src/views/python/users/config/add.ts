@@ -48,6 +48,20 @@ const modalConfig: IModalConfig<IGiftItem> = {
     },
 
     {
+      label: "密码",
+      prop: "password",
+      type: "input",
+      rules: [{ required: true, message: "密码不能为空", trigger: "blur" }],
+      attrs: {
+        placeholder: "设置密码",
+        maxlength: 64
+      },
+      col: {
+        xs: 24,
+        sm: 12,
+      },
+    },
+    {
       label: "头像",
       prop: "avatarUrl",
       type: "custom",

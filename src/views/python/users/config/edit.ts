@@ -16,10 +16,18 @@ const modalConfig: IModalConfig<any> = {
     size: useAppStore().device.value === DeviceEnum.MOBILE ? "80%" : 500,
   },
   pk: "username",
-  formAction: (data) => {
+  formAction: async (data) => {
     let obj = { ...data }
     autoPickUploadFile(obj, "avatarUrl")
     if (!obj.username) throw "必须提供用户名"
+    if (data.password) {
+      //设置密码\
+      console.log("设置密码")
+      await apiObj.updatePassword({
+        username: obj.username,
+        password: obj.password
+      })
+    }
     return apiObj.update(obj)
   },
   beforeSubmit(data) {
@@ -30,7 +38,7 @@ const modalConfig: IModalConfig<any> = {
       label: "用户名",
       prop: "username",
       rules: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
-      type: "input",
+      type: "text",
       col: {
         xs: 24,
         sm: 12,
@@ -50,7 +58,20 @@ const modalConfig: IModalConfig<any> = {
         sm: 12,
       },
     },
-
+    {
+      label: "密码",
+      prop: "password",
+      type: "input",
+      // rules: [{ required: true, message: "密码不能为空", trigger: "blur" }],
+      attrs: {
+        placeholder: "设置密码",
+        maxlength: 64
+      },
+      col: {
+        xs: 24,
+        sm: 12,
+      },
+    },
     {
       label: "头像",
       prop: "avatarUrl",

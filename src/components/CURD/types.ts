@@ -250,6 +250,7 @@ export type IFormItems<T = any> = Array<{
   initialValue?: any;
   // 是否隐藏
   hidden?: boolean;
+  visibleFunc?: (data: T) => boolean;
   // layout组件Col属性
   col?: Partial<ColProps>;
   // 监听函数

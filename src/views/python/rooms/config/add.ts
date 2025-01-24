@@ -72,6 +72,13 @@ const modalConfig: IModalConfig<VideoItem> = {
     },
     {
       label: "金币房价格",
+      visibleFunc: (obj) => {
+        console.log("对象", obj)
+        return obj["room_type"] == 1
+      },
+      watch(newValue, oldValue, data, items) {
+
+      },
       prop: "cost",
       type: "input-number",
       initialValue: 1
