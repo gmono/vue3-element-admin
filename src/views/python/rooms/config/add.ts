@@ -94,7 +94,10 @@ const modalConfig: IModalConfig<RoomItem> = {
       label: "房间时间限制",
       prop: "time_limit",
       type: "time-picker",
-      computed(data) {
+      readFrom(data, prop) {
+        return new Date()
+      },
+      writeTo(data, prop, value) {
 
       },
       attrs: {

@@ -169,6 +169,10 @@
                     <template v-else-if="item.type === 'date-picker'">
                       <el-date-picker v-model="propTarget[idx]" v-bind="item.attrs" />
                     </template>
+                    <!-- 时间选择器 -->
+                    <template v-else-if="item.type == 'time-picker'">
+                      <el-time-picker v-model="propTarget[idx]" arrow-control placeholder="选择时间" />
+                    </template>
                     <!-- Text 文本 -->
                     <template v-else-if="item.type === 'text'">
                       <el-text v-bind="item.attrs">
