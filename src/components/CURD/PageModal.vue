@@ -5,7 +5,7 @@
       <!-- 表单 -->
       <el-form ref="formRef" label-width="auto" v-bind="modalConfig.form" :model="formData" :rules="formRules">
         <el-row :gutter="20">
-          <template v-for="item in formItems" :key="item.prop">
+          <template v-for="item, idx in formItems" :key="item.prop">
             <el-col v-show="!item.hidden" v-bind="item.col">
               <template v-if="isVis(item)">
                 <el-form-item :label="item.label" :prop="item.prop">
@@ -23,11 +23,11 @@
 
                   <!-- Input 输入框 -->
                   <template v-if="item.type === 'input' || item.type === undefined">
-                    <el-input v-model="formData[item.prop]" v-bind="item.attrs" />
+                    <el-input v-model="propTarget[idx]" v-bind="item.attrs" />
                   </template>
                   <!-- Select 选择器 -->
                   <template v-else-if="item.type === 'select'">
-                    <el-select v-model="formData[item.prop]" v-bind="item.attrs">
+                    <el-select v-model="propTarget[idx]" v-bind="item.attrs">
                       <template v-for="option in item.options" :key="option.value">
                         <el-option v-bind="option" />
                       </template>
@@ -35,7 +35,7 @@
                   </template>
                   <!-- Radio 单选框 -->
                   <template v-else-if="item.type === 'radio'">
-                    <el-radio-group v-model="formData[item.prop]" v-bind="item.attrs">
+                    <el-radio-group v-model="propTarget[idx]" v-bind="item.attrs">
                       <template v-for="option in item.options" :key="option.value">
                         <el-radio v-bind="option" />
                       </template>
@@ -43,11 +43,11 @@
                   </template>
                   <!-- switch 开关 -->
                   <template v-else-if="item.type === 'switch'">
-                    <el-switch v-model="formData[item.prop]" inline-prompt v-bind="item.attrs" />
+                    <el-switch v-model="propTarget[idx]" inline-prompt v-bind="item.attrs" />
                   </template>
                   <!-- Checkbox 多选框 -->
                   <template v-else-if="item.type === 'checkbox'">
-                    <el-checkbox-group v-model="formData[item.prop]" v-bind="item.attrs">
+                    <el-checkbox-group v-model="propTarget[idx]" v-bind="item.attrs">
                       <template v-for="option in item.options" :key="option.value">
                         <el-checkbox v-bind="option" />
                       </template>
@@ -55,25 +55,25 @@
                   </template>
                   <!-- Input Number 数字输入框 -->
                   <template v-else-if="item.type === 'input-number'">
-                    <el-input-number v-model="formData[item.prop]" v-bind="item.attrs" />
+                    <el-input-number v-model="propTarget[idx]" v-bind="item.attrs" />
                   </template>
                   <!-- TreeSelect 树形选择 -->
                   <template v-else-if="item.type === 'tree-select'">
-                    <el-tree-select v-model="formData[item.prop]" v-bind="item.attrs" />
+                    <el-tree-select v-model="propTarget[idx]" v-bind="item.attrs" />
                   </template>
                   <!-- DatePicker 日期选择器 -->
                   <template v-else-if="item.type === 'date-picker'">
-                    <el-date-picker v-model="formData[item.prop]" v-bind="item.attrs" />
+                    <el-date-picker v-model="propTarget[idx]" v-bind="item.attrs" />
                   </template>
 
                   <!-- 时间选择器 -->
                   <template v-else-if="item.type == 'time-picker'">
-                    <el-time-picker v-model="formData[item.prop]" arrow-control placeholder="选择时间" />
+                    <el-time-picker v-model="propTarget[idx]" arrow-control placeholder="选择时间" />
                   </template>
                   <!-- Text 文本 -->
                   <template v-else-if="item.type === 'text'">
                     <el-text v-bind="item.attrs">
-                      {{ formData[item.prop] }}
+                      {{ propTarget[idx] }}
                     </el-text>
                   </template>
                   <!-- 自定义 -->
@@ -110,7 +110,7 @@
         <el-form ref="formRef" label-width="auto" v-bind="modalConfig.form"
           style="padding-right: var(--el-dialog-padding-primary)" :model="formData" :rules="formRules">
           <el-row :gutter="20">
-            <template v-for="item in formItems" :key="item.prop">
+            <template v-for="item, idx in formItems" :key="item.prop">
               <el-col v-show="!item.hidden" v-bind="item.col">
                 <template v-if="isVis(item)">
                   <el-form-item :label="item.label" :prop="item.prop">
@@ -127,11 +127,11 @@
                     </template>
                     <!-- Input 输入框 -->
                     <template v-if="item.type === 'input' || item.type === undefined">
-                      <el-input v-model="formData[item.prop]" v-bind="item.attrs" />
+                      <el-input v-model="propTarget[idx]" v-bind="item.attrs" />
                     </template>
                     <!-- Select 选择器 -->
                     <template v-else-if="item.type === 'select'">
-                      <el-select v-model="formData[item.prop]" v-bind="item.attrs">
+                      <el-select v-model="propTarget[idx]" v-bind="item.attrs">
                         <template v-for="option in item.options" :key="option.value">
                           <el-option v-bind="option" />
                         </template>
@@ -139,7 +139,7 @@
                     </template>
                     <!-- Radio 单选框 -->
                     <template v-else-if="item.type === 'radio'">
-                      <el-radio-group v-model="formData[item.prop]" v-bind="item.attrs">
+                      <el-radio-group v-model="propTarget[idx]" v-bind="item.attrs">
                         <template v-for="option in item.options" :key="option.value">
                           <el-radio v-bind="option" />
                         </template>
@@ -147,11 +147,11 @@
                     </template>
                     <!-- switch 开关 -->
                     <template v-else-if="item.type === 'switch'">
-                      <el-switch v-model="formData[item.prop]" inline-prompt v-bind="item.attrs" />
+                      <el-switch v-model="propTarget[idx]" inline-prompt v-bind="item.attrs" />
                     </template>
                     <!-- Checkbox 多选框 -->
                     <template v-else-if="item.type === 'checkbox'">
-                      <el-checkbox-group v-model="formData[item.prop]" v-bind="item.attrs">
+                      <el-checkbox-group v-model="propTarget[idx]" v-bind="item.attrs">
                         <template v-for="option in item.options" :key="option.value">
                           <el-checkbox v-bind="option" />
                         </template>
@@ -159,20 +159,20 @@
                     </template>
                     <!-- Input Number 数字输入框 -->
                     <template v-else-if="item.type === 'input-number'">
-                      <el-input-number v-model="formData[item.prop]" v-bind="item.attrs" />
+                      <el-input-number v-model="propTarget[idx]" v-bind="item.attrs" />
                     </template>
                     <!-- TreeSelect 树形选择 -->
                     <template v-else-if="item.type === 'tree-select'">
-                      <el-tree-select v-model="formData[item.prop]" v-bind="item.attrs" />
+                      <el-tree-select v-model="propTarget[idx]" v-bind="item.attrs" />
                     </template>
                     <!-- DatePicker 日期选择器 -->
                     <template v-else-if="item.type === 'date-picker'">
-                      <el-date-picker v-model="formData[item.prop]" v-bind="item.attrs" />
+                      <el-date-picker v-model="propTarget[idx]" v-bind="item.attrs" />
                     </template>
                     <!-- Text 文本 -->
                     <template v-else-if="item.type === 'text'">
                       <el-text v-bind="item.attrs">
-                        {{ formData[item.prop] }}
+                        {{ propTarget[idx] }}
                       </el-text>
                     </template>
                     <!-- 自定义 -->
@@ -222,6 +222,77 @@ const formItems = reactive(props.modalConfig.formItems);
 const formData = reactive<IObject>({});
 //修改后自动刷新
 const vm = getCurrentInstance()
+
+//读取属性
+function readProp(formData, item: IFormItems[0]) {
+
+  if (item.readFrom) {
+    return item.readFrom(formData, item.prop)
+  }
+  else return formData[item.prop]
+}
+//读取属性 替代直接读取
+function readFromProp(item) {
+  return readProp(formData, item)
+}
+//写入属性
+function writeToProp(item: IFormItems[0], value) {
+  if (item.writeTo) {
+    item.writeTo(formData, item.prop, value)
+  }
+  else formData[item.prop] = value;
+}
+//
+// function buildTarget(item) {
+//   const propTarget = $computed({
+//     get() {
+//       return readFromProp(item)
+//     }, set(v) {
+//       writeToProp(item, v)
+//     }
+//   })
+// }
+//可写入的对象
+let propTarget = new Proxy({}, {
+  get(target, p, receiver) {
+    //p是item的index
+    // console.log(p)
+
+
+    function inner(p) {
+      var item = formItems[p];
+      return readFromProp(item);
+    }
+    if (typeof p != "number") {
+      try {
+        let i = parseInt(p as any)
+        return inner(i)
+      } catch (e) {
+        return undefined;
+      }
+    }
+    return inner(p);
+
+  },
+  set(target, p, newValue, receiver) {
+    function inner(p) {
+      var item = formItems[p];
+      writeToProp(item, newValue);
+      console.log(newValue)
+      vm?.proxy?.$forceUpdate()
+      return true
+    }
+    if (typeof p != "number") {
+      try {
+        let i = parseInt(p as any)
+        return inner(i)
+      } catch (e) {
+        return false;
+      }
+    }
+    return inner(p);
+  },
+})
 // watch(() => formData, v => {
 //   var t = vm?.proxy?.$forceUpdate;
 //   t && t();
@@ -234,7 +305,7 @@ onMounted(() => {
 //是否可见
 function isVis(item: IFormItems[0]) {
   console.log("表单item", item)
-  // var dt = formData[item.prop]
+  // var dt = readFormProp(item)
   if (item.visibleFunc == null) return true;
   else return item.visibleFunc(formData)
   // return false;
@@ -244,13 +315,13 @@ const formDisable = ref(false);
 const prepareFuncs = [];
 for (const item of formItems) {
   item.initFn && item.initFn(item);
-  formData[item.prop] = item.initialValue ?? "";
+  writeToProp(item, item.initialValue ?? "");
   formRules[item.prop] = item.rules ?? [];
 
   if (item.watch !== undefined) {
     prepareFuncs.push(() => {
       watch(
-        () => formData[item.prop],
+        () => readFromProp(item),
         (newValue, oldValue) => {
           item.watch && item.watch(newValue, oldValue, formData, formItems);
         }
@@ -261,7 +332,7 @@ for (const item of formItems) {
   if (item.computed !== undefined) {
     prepareFuncs.push(() => {
       watchEffect(() => {
-        item.computed && (formData[item.prop] = item.computed(formData));
+        item.computed && (writeToProp(item, item.computed(formData)));
       });
     });
   }

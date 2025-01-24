@@ -255,6 +255,11 @@ export type IFormItems<T = any> = Array<{
   col?: Partial<ColProps>;
   // 监听函数
   watch?: (newValue: any, oldValue: any, data: T, items: IObject[]) => void;
+
+  //写入函数 替代prop直接写入 有写入函数则通过写入函数写入
+  writeTo?: (data: T, prop: any, value: any) => void;
+  //读取函数 可以单纯从此函数读取 prop可以随便指定
+  readFrom?: (data: T, prop: any) => void;
   // 计算属性函数
   computed?: (data: T) => any;
   // 监听收集函数

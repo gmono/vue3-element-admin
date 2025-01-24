@@ -3,9 +3,9 @@ import type { IModalConfig } from "@/components/CURD/types";
 
 import { apis } from "../../_apis/api";
 import { autoPickUploadFile } from "../../_apis/autoPickUploadFile";
-import { IGiftItem, VideoItem } from "../../_apis/types";
+import { IGiftItem, RoomItem, VideoItem } from "../../_apis/types";
 import { addTitle, apiObj, objName } from "./common";
-const modalConfig: IModalConfig<VideoItem> = {
+const modalConfig: IModalConfig<RoomItem> = {
   pageName: "live:gift",
   dialog: {
     title: addTitle,
@@ -70,14 +70,12 @@ const modalConfig: IModalConfig<VideoItem> = {
       ],
       initialValue: 0
     },
+
     {
       label: "金币房价格",
       visibleFunc: (obj) => {
         console.log("对象", obj)
         return obj["room_type"] == 1
-      },
-      watch(newValue, oldValue, data, items) {
-
       },
       prop: "cost",
       type: "input-number",
@@ -86,14 +84,19 @@ const modalConfig: IModalConfig<VideoItem> = {
     {
       label: "单人房用户限制",
       prop: "limit_username",
+      visibleFunc(data) {
+        return data["room_type"] == 2
+      },
       type: "input",
       initialValue: ""
     },
-
     {
       label: "房间时间限制",
       prop: "time_limit",
       type: "time-picker",
+      computed(data) {
+
+      },
       attrs: {
       },
       initialValue: 1
